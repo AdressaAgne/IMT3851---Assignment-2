@@ -1,0 +1,3 @@
+#deny access to importent files in this folder
+
+deny from all
