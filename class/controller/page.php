@@ -5,7 +5,8 @@ class Page extends App{
     public $url,
            $title,
            $content,
-           $header;
+           $header,
+           $get;
     
     /**
      * Set values
@@ -15,11 +16,25 @@ class Page extends App{
      * @param string $header  php file url
      * @param string $content Page header text
      */
-    function __construct($url, $title, $header, $content){
+    function __construct($url, $title, $header, $content, $vars = false){
         $this->url = $url;
         $this->title = $title;
         $this->header = $header;
         $this->content = $content;
+        if($vars !== false) $this->get = $vars;
+    }
+    
+    /**
+     * Page $_GET Variables
+     * @param array $vars variables
+     */
+    public function setVars($vars){
+        array_shift($vars);
+        foreach($vars as $key => $var){
+            if(array_key_exists($key, $this->get)){
+                 $_GET[$this->get[$key]] = $var;
+            }
+        }
     }
     
     /**

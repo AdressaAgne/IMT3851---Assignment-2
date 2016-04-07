@@ -7,6 +7,8 @@ class App{
            $page;
     
     function __construct(){
+        if(!isset($_SESSION)) session_start();
+        
         $this->config = parse_ini_file(self::$ini_file);
     }
     /**
@@ -47,6 +49,7 @@ class App{
         return $this->config['viewFolder']."main/footer.php";
     }
     
+    
 }
 $app = new App();
 
@@ -63,3 +66,9 @@ include("controller/news.php");
 // Page files
 include("controller/page.php");
 include("controller/pages.php");
+
+
+// Debug info
+if(isset($_GET['debug'])){
+    highlight_string("<?php\n\$data =\n" . var_export($app, true) . ";\n?>");
+}

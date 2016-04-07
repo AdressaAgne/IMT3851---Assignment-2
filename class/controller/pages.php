@@ -1,6 +1,6 @@
 <?php
 
-class Pages extends App{
+class Pages extends App implements Countable{
     private $pages = [],
             $error = [],
             $currentPage;
@@ -13,18 +13,21 @@ class Pages extends App{
         parent::__construct();
         
         // Add Pages
-        $this->addPage(new Page("/","Home Page", 'Welcome', 'index.php'));
-        $this->addPage(new Page("/view","Home Page", 'Browse news', 'index.php'));
-        
+        $this->addPage(new Page("/",        "Home Page",    'Welcome',                      'index.php'));
+        $this->addPage(new Page("/news",    "Home Page",    'Browse news',                  'index.php', ['news']));
         
         // Add Error Pages
-        $this->addError(new Page("404","Error 404",'Error 404, page not found', 'error/404.php'));
+        $this->addError(new Page("404",     "Error 404",    'Error 404, page not found',    'error/404.php'));
+        $this->addError(new Page("403",     "Error 403",    'Error 404, access denyed',    'error/404.php'));
         
     }
     
     function setPages(){
-        if(array_key_exists($_SERVER['REQUEST_URI'], $this->pages)){
-            return $this->currentPage = $this->pages[$_SERVER['REQUEST_URI']];
+        $key = explode("-", $_SERVER['REQUEST_URI']);
+
+        if(array_key_exists($key[0] , $this->pages)){
+            $this->pages[$key[0]]->setVars($key);
+            return $this->currentPage = $this->pages[$key[0]];
         } else {
             return $this->currentPage = $this->error['404'];
         }
@@ -43,6 +46,16 @@ class Pages extends App{
     public function addError(Page $item){
         $this->error[$item->url] = $item;
     }
+    
+    /**
+     * function count(Obj Pages)
+     * @param object Invisible param
+     * @return integer Nunber of pages
+     */
+    public function count() {
+        return count($this->pages);
+    }
+    
 }
 $pages = new Pages();
 $app->setPage($pages->setPages());
