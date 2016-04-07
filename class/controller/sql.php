@@ -1,16 +1,26 @@
 <?php
 
-class sql extends App{
+class SQLMethods extends App{
     
+    /**
+     * PDO Select
+     * @param  string $sql SQL Request
+     * @param  array  $arr is false if not etered
+     * @return array  sql    
+     */
     public function select($sql, $arr = false){
         // Prepare sql statement
-        $query = $this->pdo->_db->prepare($sql);
+        $query = parent::$pdo->_db->prepare($sql);
         
         if($arr !== false){
             // Add values to query
-            $this->pdo->arrayBinder($query, $arr);
+            parent::$pdo->arrayBinder($query, $arr);
         }
-        $query->execute();
+        try{
+            $query->execute();
+        } catch (PDOExeption $e){
+            $this->error($e);
+        }
         
         return $query->fetch();
         
@@ -28,4 +38,5 @@ class sql extends App{
     }
     
 }
-$app->setSQL(new sql());
+
+$app->setSQL(new SQLMethods());

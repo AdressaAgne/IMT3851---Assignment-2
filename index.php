@@ -21,7 +21,7 @@
     
     <!--    Links     -->
     
-    <title><?= $app->page->get_title() ?></title>
+    <title><?= $app::$page->get_title() ?></title>
 </head>
 <body>
     <main>
@@ -32,8 +32,8 @@
 
         <!--    Page Content     -->
         <div class="row">
-            <h1><?= $app->page->get_header() ?></h1>
-            <?php include($app->config['view_folder'].$app->page->get_content()); ?>
+            <h1><?= $app::$page->get_header() ?></h1>
+            <?php include($app::$config['view_folder'].$app::$page->get_content()); ?>
         </div>
 
         <!--    HTML Footer     -->

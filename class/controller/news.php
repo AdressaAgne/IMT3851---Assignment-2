@@ -8,10 +8,12 @@ class News extends App implements Countable, IteratorAggregate{
      * @private
      */
     public function __construct(){
-        $news = $this->sql->select("SELECT * FROM new");
-        foreach($news as $newsPage){
-            $this->addnews(new NewsPage($newsPage['title'], $newsPage['article'], $newsPage['author'], $newsPage['id']));
-        }
+        //parent::__construct();
+        
+        $news = parent::$sql->select("SELECT * FROM news");
+//        foreach($news as $newsPage){
+//            $this->addNews(new NewsPage($newsPage['title'], $newsPage['article'], $newsPage['author'], $newsPage['id']));
+//        }
     }
     
     /**
@@ -39,3 +41,4 @@ class News extends App implements Countable, IteratorAggregate{
     }
     
 }
+$news = new News();

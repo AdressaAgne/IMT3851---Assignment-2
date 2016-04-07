@@ -8,7 +8,7 @@
 
 class App{
     static $ini_file = "data/config.ini";
-    public $config,
+    static $config,
            $pdo,
            $sql,
            $page,
@@ -17,28 +17,28 @@ class App{
     function __construct(){
         if(!isset($_SESSION)) session_start();
         
-        $this->config = parse_ini_file(self::$ini_file);
+        self::$config = parse_ini_file(self::$ini_file);
     }
     /**
      * Database PDO
      * @param object database $pdo
      */
     public function setPDO(Database $pdo){
-        $this->pdo = $pdo;
+        self::$pdo = $pdo;
     }
      /**
      * Obj sql
      * @param object sql $sql
      */
-    public function setSQL(sql $sql){
-        $this->sql = $sql;
+    public function setSQL(SQLMethods $sql){
+        self::$sql = $sql;
     }
     
     /**
      * @return object Page
      */
     public function getPage(){
-        return $this->page;
+        return self::$page;
     }
     
     /**
@@ -46,7 +46,7 @@ class App{
      * @param object Page $page
      */
     public function setPage(Page $page){
-        $this->page = $page;
+        self::$page = $page;
     }
     
     /**
@@ -54,7 +54,7 @@ class App{
      * @return string file url
      */
     public function get_menu(){
-        return $this->config['view_folder']."main/menu.php";
+        return self::$config['view_folder']."main/menu.php";
     }
     
     /**
@@ -62,7 +62,11 @@ class App{
      * @return string file url
      */
     public function get_footer(){
-        return $this->config['view_folder']."main/footer.php";
+        return self::$config['view_folder']."main/footer.php";
+    }
+    
+    public function error($e){
+        echo $e;
     }
     
     

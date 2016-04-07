@@ -17,6 +17,8 @@ class NewsPage extends App{
      * @param integer $id      Article UUID
      */
     public function __construct($title, $article, $author, $id){
+        parent::__construct();
+        
         $this->title = $title;
         $this->article = $article;
         $this->author = $author;

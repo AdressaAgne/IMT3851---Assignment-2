@@ -27,7 +27,7 @@ class Pages extends App implements Countable, IteratorAggregate{
      * @return object Page
      */
     function setPages(){
-        $key = explode($this->config['get_devider'], $_SERVER['REQUEST_URI']);
+        $key = explode(parent::$config['get_devider'], $_SERVER['REQUEST_URI']);
 
         if(array_key_exists($key[0] , $this->pages)){
             $this->pages[$key[0]]->setVars($key);

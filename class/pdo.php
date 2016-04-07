@@ -10,7 +10,7 @@ class Database extends App{
         parent::__construct();
         
         try {
-            $this->_db = new PDO('mysql:host='.$this->config['host'].';dbname='.$this->config['name'], $this->config['username'], $this->config['password']);
+            $this->_db = new PDO('mysql:host='.parent::$config['host'].';dbname='.parent::$config['name'], parent::$config['username'], parent::$config['password']);
             $this->_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
         } catch (PDOException $e) {
             die("Error: ".$e);
@@ -29,4 +29,4 @@ class Database extends App{
 	}	
 }
 
-$app->setPDO(new database());
+$app->setPDO(new Database());
