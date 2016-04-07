@@ -1,51 +1,38 @@
 <?php
 
-class Pages extends App{
-    // $pages could be populated with a database table to make it a cms
-    private $pages = [
-                '/' => [
-                    'title' => "Home page",
-                    'content' => "index.php"
-                ]
-            ],
-            $error = [
-                '404' => [
-                    'title' => 'Error 404, page not found',
-                    'content' => 'error/404.php'
-                ]
-            ],
-            $currentPage;
+class Page extends App{
     
-    function __construct(){
-        parent::__construct();
-        
-        if(array_key_exists($_SERVER['REQUEST_URI'], $this->pages)){
-            $this->currentPage = $this->pages[$_SERVER['REQUEST_URI']];
-        } else {
-            $this->currentPage = $this->error['404'];
-        }
+    public $url,
+           $title,
+           $content,
+           $header;
+    
+    /**
+     * Set values
+     * @private
+     * @param string $url     Brwoser Url
+     * @param string $title   Page Title
+     * @param string $header  php file url
+     * @param string $content Page header text
+     */
+    function __construct($url, $title, $header, $content){
+        $this->url = $url;
+        $this->title = $title;
+        $this->header = $header;
+        $this->content = $content;
     }
     
-    public function addPage($path, $arr){
-        $this->pages[$path] = $arr;
-    }
-    
+    /**
+     * @return string Page title
+     */
     public function get_title(){
-        return $this->currentPage['title'];
+        return $this->title;
     }
     
+    /**
+     * @return string page content url
+     */
     public function get_content(){
-        include($this->config['viewFolder'].$this->currentPage['content']);
+        return $this->content;
     }
-    
-    public function get_menu(){
-        include($this->config['viewFolder']."main/menu.php");
-    }
-    
-    public function get_footer(){
-        include($this->config['viewFolder']."main/footer.php");
-    }
-    
 }
-
-$pages = new Pages();

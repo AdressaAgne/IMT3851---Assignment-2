@@ -1,11 +1,15 @@
 <?php 
-class database extends App{
+class Database extends App{
 	protected $_db_host;
 	protected $_db_username;
 	protected $_db_password;
 	protected $_db_name;
 	public $_db;
 	
+	/**
+	 * Database connetion setup
+	 * @private
+	 */
 	public function __construct() {
         parent::__construct();
         
@@ -23,14 +27,15 @@ class database extends App{
             die("Error: ".$e);
         }
 	}
+    
+	/**
+	 * PDO bindValue
+	 * @param object &$pdo   PDO
+	 * @param array  &$array ['name' => 'value',...] :name will be value
+	 */
 	public function arrayBinder(&$pdo, &$array) {
 		foreach ($array as $key => $value) {
 			$pdo->bindValue(':'.$key,$value);
-		}
-	}
-	public function arrayBinderInt(&$pdo, &$array) {
-		foreach ($array as $key => $value) {
-			$pdo->bindValue(':'.$key, (int) $value, PDO::PARAM_INT);
 		}
 	}	
 }
