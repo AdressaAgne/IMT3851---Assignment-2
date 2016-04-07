@@ -1,6 +1,9 @@
 #Rewrite everything to index.php
 
+ErrorDocument 403 /
+ErrorDocument 404 /
+
 RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ /index.php?path=$1 [NC,L,QSA]
+RewriteRule ^(.*)$ / [NC,L,QSA]
