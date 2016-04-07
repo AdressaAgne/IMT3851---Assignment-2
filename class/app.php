@@ -1,10 +1,18 @@
 <?php
 
+/**
+*
+* © Agne Ødegaard 2016
+*
+*/
+
 class App{
     static $ini_file = "data/config.ini";
     public $config,
            $pdo,
-           $page;
+           $sql,
+           $page,
+           $account;
     
     function __construct(){
         if(!isset($_SESSION)) session_start();
@@ -18,6 +26,13 @@ class App{
     public function setPDO(Database $pdo){
         $this->pdo = $pdo;
     }
+     /**
+     * Obj sql
+     * @param object sql $sql
+     */
+    public function setSQL(sql $sql){
+        $this->sql = $sql;
+    }
     
     /**
      * @return object Page
@@ -27,7 +42,8 @@ class App{
     }
     
     /**
-     * @param object Page $page Set the sites current page
+     * Set the sites current page
+     * @param object Page $page
      */
     public function setPage(Page $page){
         $this->page = $page;
@@ -38,7 +54,7 @@ class App{
      * @return string file url
      */
     public function get_menu(){
-        return $this->config['viewFolder']."main/menu.php";
+        return $this->config['view_folder']."main/menu.php";
     }
     
     /**
@@ -46,7 +62,7 @@ class App{
      * @return string file url
      */
     public function get_footer(){
-        return $this->config['viewFolder']."main/footer.php";
+        return $this->config['view_folder']."main/footer.php";
     }
     
     
@@ -59,8 +75,10 @@ include("controller/sql.php");
 
 // Account Controller
 include("controller/account.php");
+include("controller/accounts.php");
 
 // News Controller
+include("controller/newsPage.php");
 include("controller/news.php");
 
 // Page files

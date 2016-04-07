@@ -28,3 +28,4 @@ class sql extends App{
     }
     
 }
+$app->setSQL(new sql());

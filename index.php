@@ -33,7 +33,7 @@
         <!--    Page Content     -->
         <div class="row">
             <h1><?= $app->page->get_header() ?></h1>
-            <?php include($app->config['viewFolder'].$app->page->get_content()); ?>
+            <?php include($app->config['view_folder'].$app->page->get_content()); ?>
         </div>
 
         <!--    HTML Footer     -->

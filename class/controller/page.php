@@ -25,7 +25,7 @@ class Page extends App{
         $this->header = $header;
         $this->content = $content;
         $this->visible = $visible;
-        if($vars !== false) $this->get = $vars;
+        $this->get = $vars;
     }
     
     /**
@@ -34,9 +34,11 @@ class Page extends App{
      */
     public function setVars($vars){
         array_shift($vars);
-        foreach($vars as $key => $var){
-            if(array_key_exists($key, $this->get)){
-                 $_GET[$this->get[$key]] = $var;
+        if($this->get !== false){
+            foreach($vars as $key => $var){
+                if(array_key_exists($key, $this->get)){
+                    $_GET[$this->get[$key]] = $var;
+                }   
             }
         }
     }
