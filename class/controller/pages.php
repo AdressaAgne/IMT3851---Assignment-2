@@ -1,6 +1,6 @@
 <?php
 
-class Pages extends App implements Countable{
+class Pages extends App implements Countable, IteratorAggregate{
     private $pages = [],
             $error = [],
             $currentPage;
@@ -12,13 +12,13 @@ class Pages extends App implements Countable{
     function __construct(){
         parent::__construct();
         
-        // Add Pages
+        // Add Pages            Path        Page Title      Page Header text                File                $_GET
         $this->addPage(new Page("/",        "Home Page",    'Welcome',                      'index.php'));
-        $this->addPage(new Page("/news",    "Home Page",    'Browse news',                  'index.php', ['news']));
+        $this->addPage(new Page("/news",    "Browser News",    'Browse news',               'index.php',        ['news']));
         
         // Add Error Pages
         $this->addError(new Page("404",     "Error 404",    'Error 404, page not found',    'error/404.php'));
-        $this->addError(new Page("403",     "Error 403",    'Error 404, access denyed',    'error/404.php'));
+        $this->addError(new Page("403",     "Error 403",    'Error 404, access denyed',     'error/404.php'));
         
     }
     
@@ -54,6 +54,14 @@ class Pages extends App implements Countable{
      */
     public function count() {
         return count($this->pages);
+    }
+    
+    /**
+     * Foreach on Obj Pages
+     * @return object Page
+     */
+    public function getIterator(){
+        return new ArrayIterator($this->pages);
     }
     
 }
