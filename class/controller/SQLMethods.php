@@ -4,13 +4,13 @@ class SQLMethods extends App{
     
     /**
      * PDO Select
-     * @param  string $sql SQL Request
+     * @param  string $table SQL Table
      * @param  array  $arr is false if not etered
-     * @return array  sql    
+     * @return array  sql rows   
      */
-    public function select($sql, $arr = false){
+    public function select($table, $arr = false){
         // Prepare sql statement
-        $query = parent::$pdo->_db->prepare($sql);
+        $query = parent::$pdo->_db->prepare("SELECT * FROM $table");
         
         if($arr !== false){
             // Add values to query
@@ -22,7 +22,7 @@ class SQLMethods extends App{
             $this->error($e);
         }
         
-        return $query->fetch();
+        return $query->fetchAll();
         
     }
     public function delete(){

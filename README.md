@@ -1,7 +1,8 @@
 # IMT3851---Assignment-2
 School Assignment at NTNU Gjøvik
 
-###1 OBJECTIVES
+
+### OBJECTIVES
 Students should be able to:
 - access and manipulate MySQL databases using PHP,
 - create and use HTML forms to interact with MySQL and PHP,
@@ -9,7 +10,7 @@ Students should be able to:
 - take security measures against XSS and SQL injection,
 - and create a basic dynamic website.
 
-###2 DESCRIPTION
+### DESCRIPTION
 
 In this assignment, you are expected to develop an online newspaper allowing its users to
 provide fun news originating from both real and fake events.
@@ -26,7 +27,8 @@ delete items created by him, and update his registration data (including the pas
 user logs in as an admin, in addition to what a normal user can do, she/he should be able to
 delete users, add/delete news categories (e.g., politics, sports etc.), delete any news item, and
 see a summary (i.e., a list presenting the number of news under each category).
-###3 OTHER REQUIREMENTS
+
+### OTHER REQUIREMENTS
 - You should add indexes to your tables as necessary.
 - It is sufficient to combine search keywords only with the ‘AND’ operator.
 - You should use cookies to keep track of users’ preferences for topic ordering.

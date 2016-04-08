@@ -17,30 +17,37 @@
     
     
     <!--    Google Fonts     -->
-    
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400' rel='stylesheet' type='text/css'>
     
     <!--    Links     -->
-    
+    <link rel="stylesheet" href="/css/main.css">
     <title><?= $app::$page->get_title() ?></title>
 </head>
 <body>
+    <!--    Menu     -->
+    <menu>
+        <div class="row">
+            <div class="col col--4-of-4">
+                <?php include($app->get_menu()); ?>
+            </div>
+        </div>
+    </menu>
+
+    <!--    Page Content     -->
     <main>
-        <!--    Menu     -->
         <div class="row">
-            <?php include($app->get_menu()); ?>
-        </div>
-
-        <!--    Page Content     -->
-        <div class="row">
-            <h1><?= $app::$page->get_header() ?></h1>
-            <?php include($app::$config['view_folder'].$app::$page->get_content()); ?>
-        </div>
-
-        <!--    HTML Footer     -->
-        <div class="row">
-            <?php include($app->get_footer()); ?>
+            <div class="col col--3-of-4 col--centered">
+                <?php include($app::$config['view_folder'].$app::$page->get_content()); ?>
+            </div>
         </div>
     </main>
+    <!--    HTML Footer     -->
+    <div class="row">
+        <div class="col col--4-of-4">
+            <?php include($app->get_footer()); ?>
+        </div>
+    </div>
+        
     <!--    Scripts     -->
     <script></script>
 </body>

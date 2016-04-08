@@ -2,27 +2,52 @@
 
 // a news post
 class NewsPage extends App{
-    private $title,
+    private $id,
+            $title,
             $article,
+            $preview,
             $author,
-            $id,
+            $image,
+            $style,
             $category;
     
     /**
      * News Article Page
      * @private
+     * @param integer $id      Article UUID
      * @param string  $title   Article Title
      * @param string  $article Article Text
+     * @param string  $preview Article Preview Text
      * @param integer $author  Author UUID
-     * @param integer $id      Article UUID
+     * @param string  $image   Article Header Image source
+     * @param integer $style   How to display the news on frontpage
      */
-    public function __construct($title, $article, $author, $id){
+    public function __construct($id, $title, $article, $preview, $author, $image, $style){
         parent::__construct();
         
+        $this->id = $id;
         $this->title = $title;
         $this->article = $article;
+        $this->preview = $preview;
         $this->author = $author;
-        $this->id = $id;
+        $this->image = $image;
+        $this->style = $style;
+    }
+    
+    /**
+     * Article Preview Text
+     * @return string
+     */
+    public function get_preview(){
+        return $this->preview;
+    }
+    
+    /**
+     * Article Header Image Source URL
+     * @return string
+     */
+    public function get_ImageSource(){
+        return $this->image;
     }
     
     /**
@@ -65,11 +90,23 @@ class NewsPage extends App{
         return $this->category;
     }
     
+    public function get_style(){
+        $styles = [
+            0 => "1-of-3",
+            1 => "1-of-2",
+            2 => "header",
+            3 => "video"
+        ];    
+        return $styles[$this->style];
+    }
+    
     /**
      * Get Permalink
      * @return string Removed all spaces so its URL friendly
      */
     public function get_permalink(){
-        return preg_replace("/\s/ui", $this->config['permalink_space'], $this->title);
+        $result = preg_replace("/([^a-zA-Z0-9\\s])/uis", "", strtolower(trim($this->id." ".$this->title)));
+        
+        return preg_replace("/\s/ui", parent::$config['permalink_space'], $result);
     }
 }

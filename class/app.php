@@ -69,13 +69,17 @@ class App{
         echo $e;
     }
     
+    public function newsContainer($container){
+        return self::$config['view_folder']."news/$container.php";
+    }
+    
     
 }
 $app = new App();
 
 // PDO and sql Functions
 include("pdo.php");
-include("controller/sql.php");
+include("controller/SQLMethods.php");
 
 // Account Controller
 include("controller/account.php");
