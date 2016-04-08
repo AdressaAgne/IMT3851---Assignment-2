@@ -5,6 +5,7 @@
 <head>
     <!--    Basic Meta tags     -->
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="application-name" content="Newspaper">
     <meta name="author" content="Agne Ødegaard">
     <meta name="description" content="Online newspaper site, made for Assignment 2 at NTNU Gjøvik IMT3851">
@@ -25,20 +26,18 @@
 </head>
 <body>
     <!--    Menu     -->
-    <menu>
+    <nav>
         <div class="row">
             <div class="col col--4-of-4">
                 <?php include($app->get_menu()); ?>
             </div>
         </div>
-    </menu>
+    </nav>
 
     <!--    Page Content     -->
     <main>
         <div class="row">
-            <div class="col col--3-of-4 col--centered">
                 <?php include($app::$config['view_folder'].$app::$page->get_content()); ?>
-            </div>
         </div>
     </main>
     <!--    HTML Footer     -->

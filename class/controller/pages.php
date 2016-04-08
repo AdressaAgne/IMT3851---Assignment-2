@@ -13,7 +13,7 @@ class Pages extends App implements Countable, IteratorAggregate{
         parent::__construct();
         
         // Add Pages            Path, Page Title, Page Header text, File, isVisible, $_GET
-        $this->addPage(new Page("/", "Home Page", 'Welcome','index.php', true));
+        $this->addPage(new Page("/", "Home", '','index.php', true));
         $this->addPage(new Page("/news", "News Item", 'News item', 'newsItem.php', false, ['news']));
         $this->addPage(new Page("/random", "Browser Random News", 'Browse news', 'index.php', false));
         
@@ -30,7 +30,6 @@ class Pages extends App implements Countable, IteratorAggregate{
         $key = explode(parent::$config['get_devider'], $_SERVER['REQUEST_URI']);
         array_shift($key);
         $key[0] = "/{$key[0]}";
-        print_r($key);
         if(array_key_exists($key[0] , $this->pages)){
             $this->pages[$key[0]]->setVars($key);
             return $this->currentPage = $this->pages[$key[0]];
