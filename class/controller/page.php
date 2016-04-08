@@ -7,6 +7,9 @@ class Page extends App{
             $content,
             $header,
             $visible,
+            $icon,
+            $right,
+            $hasMore,
             $get;
     
     /**
@@ -19,13 +22,19 @@ class Page extends App{
      * @param boolean $visible is the page visible
      * @param array   $vars    $_GET names
      */
-    function __construct($url, $title, $header, $content, $visible = true, $vars = false){
+    function __construct($url, $title, $header, $content, $vars){
         $this->url = $url;
         $this->title = $title;
         $this->header = $header;
         $this->content = $content;
-        $this->visible = $visible;
-        $this->get = $vars;
+        
+        
+        //$visible = true, $icon, $vars = false
+        $this->visible = isset($vars['isVisible']) ? $vars['isVisible'] : false;
+        $this->get = isset($vars['get']) ? $vars['get'] : false;
+        $this->icon = isset($vars['icon']) ? $vars['icon'] : false;
+        $this->right = isset($vars['right']) ? $vars['right'] : false;
+        $this->hasMore = isset($vars['var']) ? $vars['var'] : false;
     }
     
     /**
@@ -49,6 +58,18 @@ class Page extends App{
      */
     public function get_url(){
         return $this->url;
+    }
+    
+    public function get_alignment(){
+        return $this->right ? "menu__item--right" : "";
+    }
+    
+    public function get_hasMore(){
+        return $this->hasMore;
+    }
+    
+    public function get_icon(){
+        return '<i class="fa fa-'.$this->icon.'"></i> ';
     }
     
     /**

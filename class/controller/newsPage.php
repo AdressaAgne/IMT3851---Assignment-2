@@ -102,7 +102,7 @@ class NewsPage extends App{
     
     /**
      * Get Permalink
-     * @return string Removed all spaces so its URL friendly
+     * @return string Removed all glyphs and spaces
      */
     public function get_permalink(){
         $result = preg_replace("/([^a-zA-Z0-9\\s])/uis", "", strtolower(trim($this->id." ".$this->title)));

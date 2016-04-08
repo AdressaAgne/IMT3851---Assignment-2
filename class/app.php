@@ -12,7 +12,7 @@ class App{
            $pdo,
            $sql,
            $page,
-           $account;
+           $user;
     
     function __construct(){
         if(!isset($_SESSION)) session_start();
@@ -47,6 +47,10 @@ class App{
      */
     public function setPage(Page $page){
         self::$page = $page;
+    }
+    
+    public function setUser($user){
+        self::$user = $user;
     }
     
     /**
@@ -84,6 +88,10 @@ include("controller/SQLMethods.php");
 // Account Controller
 include("controller/account.php");
 include("controller/accounts.php");
+
+if (isset($_SESSION['uuid'])){
+        $app->setUser(new Account($_SESSION['uuid']));
+    }
 
 // News Controller
 include("controller/newsPage.php");

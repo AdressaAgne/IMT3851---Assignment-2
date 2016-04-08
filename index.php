@@ -1,5 +1,6 @@
 <?php include("class/app.php"); ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,8 +38,9 @@
     <!--    Page Content     -->
     <main>
         <div class="row">
-                <?php include($app::$config['view_folder'].$app::$page->get_content()); ?>
+            <?php include($app::$config['view_folder'].$app::$page->get_content()); ?>
         </div>
+        <pre><?php print_r($_SESSION); ?></pre>
     </main>
     <!--    HTML Footer     -->
     <div class="row">

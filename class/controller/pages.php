@@ -9,17 +9,40 @@ class Pages extends App implements Countable, IteratorAggregate{
      * Page setup
      * @private
      */
-    function __construct(){
+    function __construct(){ 
         parent::__construct();
         
-        // Add Pages            Path, Page Title, Page Header text, File, isVisible, $_GET
-        $this->addPage(new Page("/", "Home", '','index.php', true));
-        $this->addPage(new Page("/news", "News Item", 'News item', 'newsItem.php', false, ['news']));
-        $this->addPage(new Page("/random", "Browser Random News", 'Browse news', 'index.php', false));
+        // Add Pages            Path, Page Title, Page Header text, File, isVisible, icon,  $_GET
+        $this->addPage(new Page("/", "Recent", 'Recent News','index.php', 
+                                ['isVisible' => true,'icon' => 'clock-o']));
+        
+        $this->addPage(new Page("/hot", "Popular", 'Popular News','index.php', 
+                                ['isVisible' => true, 'icon' => 'line-chart']));
+        
+        $this->addPage(new Page("/news", "News Item", 'News item', 'newsItem.php', 
+                                ['isVisible' => false, 'icon' => 'fire', 'get' => ['news']]));
+         if(!isset($_SESSION['uuid'])){
+        // User Authentication
+        $this->addPage(new Page("/registrate", "Registrate", 'Registrate', 'registrate.php', 
+                                ['isVisible' => true, 'icon' => 'user-plus', 'right' => true]));
+        
+        $this->addPage(new Page("/login", "Login", 'Login', 'login.php', 
+                                ['isVisible' => true, 'icon' => 'user', 'right' => true, 'var' => true, 'get' => ['ridirect']]));
+         }
+        if(isset($_SESSION['uuid'])){
+            
+            $this->addPage(new Page("/logout", "Logout", 'Profile', 'logout.php', 
+                                    ['isVisible' => true, 'icon' => 'sign-out', 'right' => true]));
+        
+            $this->addPage(new Page("/profile", parent::$user !== null ? parent::$user->get_name() : "" , 'Profile', 'profile.php', 
+                                    ['isVisible' => true, 'icon' => 'user', 'right' => true]));
+        }
         
         // Add Error Pages
-        $this->addError(new Page("404", "Error 404", 'Error 404, page not found', 'error/404.php', false));
-        $this->addError(new Page("403", "Error 403", 'Error 404, access denyed', 'error/404.php', false));
+        $this->addError(new Page("404", "Error 404", 'Error 404, page not found', 'error/404.php', 
+                                 ['isVisible' => false, 'icon' => 'times']));
+        $this->addError(new Page("403", "Error 403", 'Error 404, access denyed', 'error/404.php', 
+                                 ['isVisible' => false, 'icon' => 'times']));
         
     }
     /**

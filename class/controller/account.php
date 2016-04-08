@@ -1,6 +1,6 @@
 <?php
 
-class Account{
+class Account extends App{
     private $id,
             $name, 
             $mail,
@@ -14,11 +14,12 @@ class Account{
      * @param string  $mail Users Mail
      * @param integer $rank Used for premitions
      */
-    public function __construct($id, $name, $mail, $rank){
+    public function __construct($id){
+        $row = parent::$sql->select('account WHERE uuid = :id', ['id' => $id])[0];
         $this->id = $id;
-        $this->name = $name;
-        $this->mail = $mail;
-        $this->rank = $rank;
+        $this->name = $row['name'];
+        $this->mail = $row['mail'];
+        $this->rank = $row['rank'];
     }
     
     /**

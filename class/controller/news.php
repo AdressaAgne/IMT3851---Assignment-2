@@ -25,7 +25,22 @@ class News extends App implements Countable, IteratorAggregate{
     }
     
     public function get_news($permalink){
-        return $this->news[$permalink];
+        if(array_key_exists($permalink, $this->news)){
+            return $this->news[$permalink];
+        } else {
+            return false;
+        }
+        
+    }
+    
+    public function sort_by(Page $page){
+        if($page->get_url() == '/'){
+            
+        }
+        
+        if($page->get_url() == '/hot'){
+            ksort($this->news);
+        }
     }
     
     public function get_first(){
