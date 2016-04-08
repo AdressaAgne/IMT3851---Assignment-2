@@ -1,6 +1,7 @@
 # IMT3851---Assignment-2
 School Assignment at NTNU Gjøvik
 
+![Image of the project](http://i.imgur.com/8wb51lh.png)
 
 ### OBJECTIVES
 Students should be able to:
