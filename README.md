@@ -1,7 +1,7 @@
 # IMT3851---Assignment-2
 School Assignment at NTNU Gjøvik
 
-![Image of the project](http://i.imgur.com/8wb51lh.png)
+![Image of the project](http://i.imgur.com/tVIOEWy.png)
 
 
 ### Todo:
@@ -60,3 +60,6 @@ see a summary (i.e., a list presenting the number of news under each category).
 - Look and feel of the pages is under your discretion.
 - Zip all your code into a single zip file.
 - This assignment has to be done individually!
+
+### Old Photos
+![Image of the project](http://i.imgur.com/8wb51lh.png)
