@@ -31,6 +31,9 @@ class Database extends App{
 		}
 	}
     
+    /**
+     * Install The Database if it does not exist
+     */
     public function installDatabase(){
         $installSQL = "CREATE TABLE `news` (
           `id` int(11) NOT NULL,

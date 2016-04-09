@@ -40,8 +40,10 @@
         <div class="row">
             <?php include($app::$config['view_folder'].$app::$page->get_content()); ?>
         </div>
+        
         <pre><?php print_r($_SESSION); ?></pre>
     </main>
+    
     <!--    HTML Footer     -->
     <div class="row">
         <div class="col col--4-of-4">
@@ -50,6 +52,23 @@
     </div>
         
     <!--    Scripts     -->
-    <script></script>
+    <script src="/js/jquery-1.12.3.min.js"></script>
+    <script>
+        $(function(){
+            $("#burger").click(function(){
+                $(".menu__item:not(.visible--phone)").toggle();
+            });
+            
+            
+            $("input[type=text], input[type=password]").on("focus", function(){
+                $(this).prev("label.placeholder").addClass("active");
+            }).on("blur", function(){
+                if($(this).val().length == 0){
+                    $(this).prev("label.placeholder").removeClass("active");
+                }
+                
+            });
+        });
+    </script>
 </body>
 </html>

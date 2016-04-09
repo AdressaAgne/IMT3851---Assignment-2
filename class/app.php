@@ -49,7 +49,11 @@ class App{
         self::$page = $page;
     }
     
-    public function setUser($user){
+    /**
+     * Set the Logged inn user
+     * @param object Account $user
+     */
+    public function setUser(Account $user){
         self::$user = $user;
     }
     
@@ -69,10 +73,11 @@ class App{
         return self::$config['view_folder']."main/footer.php";
     }
     
-    public function error($e){
-        echo $e;
-    }
-    
+    /**
+     * Get The right HTML for a news item
+     * @param  string  $container
+     * @return string php file
+     */
     public function newsContainer($container){
         return self::$config['view_folder']."news/$container.php";
     }
@@ -90,8 +95,8 @@ include("controller/account.php");
 include("controller/accounts.php");
 
 if (isset($_SESSION['uuid'])){
-        $app->setUser(new Account($_SESSION['uuid']));
-    }
+    $app->setUser(new Account($_SESSION['uuid']));
+}
 
 // News Controller
 include("controller/newsPage.php");
@@ -100,6 +105,31 @@ include("controller/news.php");
 // Page files
 include("controller/page.php");
 include("controller/pages.php");
+
+
+if($app::$page->get_url() == "/logout"){
+   $account->logout();
+}
+
+if($app::$page->get_url() == "/register" && isset($_POST['submitRegister'])){
+    if($_POST['password_1'] === $_POST['password_2']){
+        if($account->addAccount($_POST['password_1'], $_POST['mail_'], $_POST['name_'], $_POST['sirname_'], 0)){
+            $account->login($_POST['mail_'], $_POST['password_1'], false);
+        } else {
+            $error = "Mail already used";
+        }
+    } else {
+        $error = "Passwords most match.";
+    }
+    
+}
+
+
+if($app::$page->get_url() == "/login" && isset($_POST['submitLogin'])){
+    if(!$account->login($_POST['username_'], $_POST['password_'], false)){
+        $error = "Wrong Login Information";
+    };
+}
 
 
 // Debug info

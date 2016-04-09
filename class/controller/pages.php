@@ -21,19 +21,28 @@ class Pages extends App implements Countable, IteratorAggregate{
         
         $this->addPage(new Page("/news", "News Item", 'News item', 'newsItem.php', 
                                 ['isVisible' => false, 'icon' => 'fire', 'get' => ['news']]));
-         if(!isset($_SESSION['uuid'])){
+         
         // User Authentication
-        $this->addPage(new Page("/registrate", "Registrate", 'Registrate', 'registrate.php', 
-                                ['isVisible' => true, 'icon' => 'user-plus', 'right' => true]));
-        
-        $this->addPage(new Page("/login", "Login", 'Login', 'login.php', 
-                                ['isVisible' => true, 'icon' => 'user', 'right' => true, 'var' => true, 'get' => ['ridirect']]));
-         }
+        if(!isset($_SESSION['uuid'])){
+            $this->addPage(new Page("/register", "Register", 'Register', 'registrate.php', 
+                                   ['isVisible' => true, 'icon' => 'user-plus', 'right' => true]));
+       
+            $this->addPage(new Page("/login", "Login", 'Login', 'login.php', 
+                                   ['isVisible' => true, 'icon' => 'user', 'right' => true, 'var' => true, 'get' => ['ridirect']]));
+        }
         if(isset($_SESSION['uuid'])){
+            
+            $this->addPage(new Page("/add", "Add News", 'Add News','index.php', 
+                                ['isVisible' => true, 'icon' => 'plus']));
+            
+            if(parent::$user->get_rank() >= 3){
+                $this->addPage(new Page("/admin", "Admin", 'Admin','index.php', 
+                                ['isVisible' => true, 'icon' => 'bolt']));
+            }
             
             $this->addPage(new Page("/logout", "Logout", 'Profile', 'logout.php', 
                                     ['isVisible' => true, 'icon' => 'sign-out', 'right' => true]));
-        
+            
             $this->addPage(new Page("/profile", parent::$user !== null ? parent::$user->get_name() : "" , 'Profile', 'profile.php', 
                                     ['isVisible' => true, 'icon' => 'user', 'right' => true]));
         }

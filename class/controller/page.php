@@ -28,8 +28,6 @@ class Page extends App{
         $this->header = $header;
         $this->content = $content;
         
-        
-        //$visible = true, $icon, $vars = false
         $this->visible = isset($vars['isVisible']) ? $vars['isVisible'] : false;
         $this->get = isset($vars['get']) ? $vars['get'] : false;
         $this->icon = isset($vars['icon']) ? $vars['icon'] : false;
@@ -60,14 +58,26 @@ class Page extends App{
         return $this->url;
     }
     
+    /**
+     * If the page should be to the left or right in the menu
+     * @return string
+     */
     public function get_alignment(){
         return $this->right ? "menu__item--right" : "";
     }
     
+    /**
+     * If the link should contain more then just the page, eg. $_Get vars
+     * @return boolean
+     */
     public function get_hasMore(){
         return $this->hasMore;
     }
     
+    /**
+     * Get the Page Icon
+     * @return string
+     */
     public function get_icon(){
         return '<i class="fa fa-'.$this->icon.'"></i> ';
     }

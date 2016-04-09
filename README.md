@@ -3,6 +3,23 @@ School Assignment at NTNU Gjøvik
 
 ![Image of the project](http://i.imgur.com/8wb51lh.png)
 
+
+### Todo:
+
+- Vote up/down / edit vote
+- Popular page base on Votes
+- Admin Panel
+    - Add User
+    - Edit User
+    - Delete User
+    - Delete Post
+    - Edit Post
+- Submit News Post
+- Edit News Post
+- Delete News Post
+- Profile Page
+- Image uploader
+
 ### OBJECTIVES
 Students should be able to:
 - access and manipulate MySQL databases using PHP,

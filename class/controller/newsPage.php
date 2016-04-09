@@ -90,6 +90,10 @@ class NewsPage extends App{
         return $this->category;
     }
     
+    /**
+     * Convert Int to String, Hwo to display the article; Default at 0
+     * @return string
+     */
     public function get_style(){
         $styles = [
             0 => "1-of-3",

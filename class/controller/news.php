@@ -24,6 +24,11 @@ class News extends App implements Countable, IteratorAggregate{
         $this->news[$news->get_permalink()] = $news;
     }
     
+    /**
+     * Get a News article
+     * @param  string  $permalink The Articles Permalink
+     * @return boolean/object Page
+     */
     public function get_news($permalink){
         if(array_key_exists($permalink, $this->news)){
             return $this->news[$permalink];
@@ -33,16 +38,20 @@ class News extends App implements Countable, IteratorAggregate{
         
     }
     
+    /**
+     * Sort news by most Popular
+     * @param object Page $page Current Page
+     */
     public function sort_by(Page $page){
-        if($page->get_url() == '/'){
-            
-        }
-        
         if($page->get_url() == '/hot'){
             ksort($this->news);
         }
     }
     
+    /**
+     * Get the first/latest/Most Popular News Article
+     * @return object News
+     */
     public function get_first(){
         return array_values($this->news)[0]; 
     }
