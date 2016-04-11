@@ -175,10 +175,10 @@ class AccountController extends App{
         
         $arr = array(
             'password'  => $this->hashValue($password, $salt),
-            'mail'      => $mail,
+            'mail'      => strip_tags($mail),
             'salt'      => $salt,
-            'name'      => $name,
-            'surname'   => $surname,
+            'name'      => strip_tags($name),
+            'surname'   => strip_tags($surname),
             'rank'      => $rank
         );
         parent::$pdo->arrayBinder($query, $arr);

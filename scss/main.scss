@@ -8,7 +8,10 @@
 @import "toast";
 @import "fa/font-awesome";
 
-$themeColor: #ee6e73;
+//2f4955
+$themeColor: #009688;
+$secondColor: $themeColor;
+//$themeColor: #ee6e73;
 
 html, body{
     height: 100%;
@@ -34,14 +37,15 @@ main:after {
 * Cards:
 */
 .card{
-    width: 100%;
+    width: 99%;
     margin-bottom: 15px;
+    margin: 10px;
     font-weight: 300;
     background-color: #fff;
+    box-sizing: border-box;
     border-radius: 2px;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),
                 0 2px 10px 0 rgba(0,0,0,0.12);
-    
     &__image{
         width: 100%;
         height: 200px;
@@ -49,9 +53,7 @@ main:after {
         background-position: center center;
         border-radius: 2px 2px 0px 0px;
         position: relative;
-        
         &--text{
-            
             position: absolute;
             font-size: 24px;
             bottom: 40px;
@@ -83,7 +85,6 @@ main:after {
     position: relative;
     background-size: cover;
     background-position: center center;
-    
     &__content{
         position: absolute;
         font-size: 24px;
@@ -114,15 +115,37 @@ nav{
     line-height: 60px;
     &__item{
         display: inline-block;
+        height: 60px;
+        display: inline-block;
+        position: relative;
+        &:before{
+            content: '';
+            position: absolute;
+            background-color: $themeColor;
+            width: 100%;
+            height: inherit;
+            transition: all .5s;
+            clip-path: circle(0% at center center);
+            z-index: 99;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        &:hover:before{
+            clip-path: circle(100% at center center);
+        }
         a {
             color: darken($themeColor, 2%);
-            height: 60px;
+            position: relative;
+            height: inherit;
             display: inline-block;
+            z-index: 100;
             padding: 0px 20px;
             line-height: 60px;
             &:hover{
                 color: rgba(255,255,255,0.8);
-                background-color: darken($themeColor, 2%);
+                //background-color: darken($themeColor, 2%);
             }
         }
         
@@ -134,6 +157,10 @@ nav{
             background-color: darken($themeColor, 2%);
             a {
                 color: rgba(255,255,255,0.8);
+            }
+            
+            &:before{
+                background-color: rgba(0,0,0, .08);
             }
         }
     }
@@ -186,7 +213,7 @@ nav{
         display: block;
         margin-bottom: 5px;
         font-size: 12px;
-        color: $themeColor;
+        color: $secondColor;
         position: absolute;
         background-color: transparent;
         top: 25%;
@@ -196,14 +223,13 @@ nav{
             font-size: 10px;
         }
     }
-    
     input[type='text'], input[type='password']{
         width: 100%;
         height: inherit;
         padding-left: 18px;
         background-color: transparent !important;
         border: none;
-        border-bottom: 1px solid darken($themeColor, 2%);
+        border-bottom: 1px solid darken($secondColor, 2%);
         outline: none;
         box-sizing: border-box;
         
@@ -212,20 +238,22 @@ nav{
             top: 0px;
             left: 0px;
             z-index: -9999999;
-            width: inherit;
+            width: 0px;
             height: inherit;
-            background-color: $themeColor;
-            clip-path: circle(0% at left center);
+            background: $secondColor;
             opacity: 0;
             transition: all .3s ease-in-out;
+            border-radius: 0px 10px 10px 0px;
         }
-        &:focus + .wave-effect{
+        &:focus + .wave-effect, &.active + .wave-effect{
             opacity: 1;
-            clip-path: circle(142% at left center);
+            width: inherit;
+            border-radius: 0px;
         }
         
+        
         &:focus{
-            border-bottom: 2px solid darken($themeColor, 2%);
+            border-bottom: 2px solid darken($secondColor, 2%);
             color: #f8f8f8;
             
             &::-webkit-input-placeholder {
@@ -250,7 +278,7 @@ nav{
 .btn{
     text-decoration: none;
     color: #f8f8f8;
-    background-color: $themeColor;
+    background-color: $secondColor;
     text-align: center;
     letter-spacing: .5px;
     cursor: pointer;
@@ -262,8 +290,60 @@ nav{
     outline: 0;
     padding: 0 2rem;
     text-transform: uppercase;
+    transition: all .2s;
+    
+    &:hover,&:focus{
+        background-color: lighten($secondColor, 10%);
+        box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),
+                0 2px 10px 0 rgba(0,0,0,0.12);
+        color: white;
+    }
 
 }
+
+.textarea-element{
+    width: 100%;
+    position: relative;
+    margin-top: 30px;
+    font-weight: 300;
+    height: auto;
+    
+    label.placeholder {
+        display: inline-block;
+        margin-bottom: 5px;
+        font-size: 12px;
+        color: $secondColor;
+        background-color: transparent;
+        top: 25%;
+        transition: all .2s ease-in-out;
+        &.active{
+            top: -18px;
+            font-size: 10px;
+        }
+        &.right{
+            float: right;
+        }
+    }
+    
+    textarea{
+        width: inherit;
+        height: 200px;
+        max-width: 100%;
+        font-family: 'Roboto', sans-serif;
+        background-color: #fcfcfc;
+        line-height: 1.5;
+        background-color: transparent;
+        border: none;
+        box-sizing: border-box;
+        border-bottom: 2px solid darken($secondColor, 2%);
+        display: inline-block;
+        padding-left: 18px;
+        outline: none;
+        padding-right: 18px;
+    }
+}
+
+
 
 .button--container{
     margin-bottom: 20px;
@@ -301,36 +381,25 @@ p{
 *    
 */
 .columns {
-    
-   -webkit-columns: 20vw;
-  -moz-columns: 20vw;
-  columns: 20vw;
-  -webkit-column-gap: 15px;
-  -moz-column-gap: 15px;
-  column-gap: 15px;
+    columns: auto 3;
+    column-gap: 15px;
     
     .col__card{
-        display: inline-block;
-        -webkit-column-break-inside: avoid;
-                  page-break-inside: avoid;
-                       break-inside: avoid;
-        max-width: 100%;
+        float: left;
+        page-break-inside: avoid;
+             break-inside: avoid;
     }
 }
 @media (max-width: $toast-breakpoint-medium) and (min-width: $toast-breakpoint-small) {
     .columns {
-	    -webkit-columns: 33vw;
-        -moz-columns: 33vw;
-        columns: 33vw;
+        columns: auto 2;
     }
 
 }
 
 @media (max-width: $toast-breakpoint-small) {
     .columns {
-	    -webkit-columns: 100vw;
-        -moz-columns: 100vw;
-        columns: 100vw;
+        columns: auto 1;
     }
     
 }
@@ -365,8 +434,28 @@ footer{
     line-height: 50px;
     color: rgba(255,255,255,0.8);
     font-weight: 300;
-    text-align: center;
-    background-color: rgba(51, 51, 51, 0.08);
+    background-color: darken($themeColor, 3%);
+}
+
+h1, h2, h3, h4, h5, h6{
+    color: $themeColor;
+    
+    & small{
+        display: block;
+        font-size: .6em;
+    }
+}
+.hero-color{
+    height: 150px;
+    width: 100%;
+
+    color: white;
+    position: relative;
+    & h1{
+
+        position: absolute;
+        bottom: 40px;
+    }
 }
 
 /**

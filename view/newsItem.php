@@ -14,9 +14,9 @@ if($newsPage !== false) { ?>
         <div class="row">
             <div class="col col--3-of-4 col--centered">
                 <div class="button--container">
-                    <span class="thumb__text">+123</span>
-                    <a href="" class="btn"><i class="fa fa-thumbs-up"></i></a>
-                    <a href="" class="btn"><i class="fa fa-thumbs-down"></i></a>
+                    <span class="thumb__text">(wip)</span>
+                    <a href="" class="btn"><i class="fa fa-thumbs-up"></i> 123</a>
+                    <a href="" class="btn"><i class="fa fa-thumbs-down"></i> 321</a>
                 </div>
                 <p><?= $newsPage->get_article(); ?></p>
             </div>

@@ -8,7 +8,8 @@
         include($app->newsContainer('header'));
     ?>
 </div>
-<div class="col col--3-of-4 col--centered columns">
+<div class="col col--3-of-4 col--centered">
+  <div class="columns">
    <?php 
         $counter = 0;
         foreach($news as $key => $newsPage){
@@ -17,4 +18,5 @@
             }
             $counter++;
     } ?>
+    </div>
 </div>

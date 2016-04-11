@@ -32,11 +32,11 @@ class Pages extends App implements Countable, IteratorAggregate{
         }
         if(isset($_SESSION['uuid'])){
             
-            $this->addPage(new Page("/add", "Add News", 'Add News','index.php', 
+            $this->addPage(new Page("/add", "Add News", 'Add News','addNews.php', 
                                 ['isVisible' => true, 'icon' => 'plus']));
             
             if(parent::$user->get_rank() >= 3){
-                $this->addPage(new Page("/admin", "Admin", 'Admin','index.php', 
+                $this->addPage(new Page("/admin", "Admin", 'Admin','admin.php', 
                                 ['isVisible' => true, 'icon' => 'bolt']));
             }
             

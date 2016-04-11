@@ -1,8 +1,14 @@
 <div class="row">
+   <div class="hero-color">
+       <div class="col col--3-of-4 col--centered">
+            <h1>Register</h1>
+       </div>
+   </div>
     <div class="col col--1-of-4 col--centered">
-      <div class="error">
-          <?php echo isset($error) ? $error : "" ?>
-      </div>
+       
+        <div class="error">
+            <?php echo isset($error) ? $error : "" ?>
+        </div>
        <div class="clip"></div>
         <form action="" method="POST" autocomplete="off">
             <div class="form-element">

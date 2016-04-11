@@ -3,6 +3,7 @@
 class Account extends App{
     private $id,
             $name, 
+            $sirname, 
             $mail,
             $rank;
     
@@ -20,6 +21,7 @@ class Account extends App{
         $this->name = $row['name'];
         $this->mail = $row['mail'];
         $this->rank = $row['rank'];
+        $this->sirname = $row['surname'];
     }
     
     /**
@@ -35,7 +37,15 @@ class Account extends App{
      * @return string
      */
     public function get_name(){
-        return $this->name;
+        return strip_tags($this->name);
+    }
+    
+    /**
+     * Users Sirname
+     * @return string
+     */
+    public function get_sirname(){
+        return strip_tags($this->sirname);
     }
     
     /**
@@ -43,15 +53,22 @@ class Account extends App{
      * @return string
      */
     public function get_mail(){
-        return $this->mail;
+        return strip_tags($this->mail);
     }
     
     /**
      * Premitions Rank
      * @return integer
      */
-    public function get_rank(){
-        return $this->rank;
+    public function get_rank($string = false){
+        $rank = [
+            '0' => 'Member',
+            '1' => 'Member',
+            '2' => 'Member',
+            '3' => 'Moderator',
+            '4' => 'Admin'
+        ];
+        return !$string ? $this->rank : $rank[$this->rank];
     }
     
     /**
@@ -60,6 +77,6 @@ class Account extends App{
      * @return string Users name
      */
     public function __toString(){
-        return $this->name;
+        return strip_tags($this->name . " " .  $this->sirname);
     }
 }
