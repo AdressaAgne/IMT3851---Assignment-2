@@ -116,6 +116,32 @@ include("controller/pages.php");
 include("libs/parsedown.php");
 $Parsedown = new Parsedown();
 
+
+if(isset($_COOKIE['frontpage']) && $_COOKIE['frontpage'] == 'hot' 
+   && $app::$page->get_url() != '/hot'
+   && $app::$page->get_url() == '/'){
+    header("location: /hot");
+}
+if(isset($_COOKIE['frontpage']) && $_COOKIE['frontpage'] == 'recent' 
+   && $app::$page->get_url() != '/recent'
+   && $app::$page->get_url() == '/'){
+    header("location: /recent");
+}
+
+if(!isset($_COOKIE['frontpage'])
+   && $app::$page->get_url() != '/recent'
+   && $app::$page->get_url() == '/'){
+    header("location: /recent");
+}
+
+
+/**
+*
+*  This should be an individual file....
+*
+*
+*/
+
 //Logout
 if($app::$page->get_url() == "/logout"){
    $account->logout();
@@ -186,6 +212,15 @@ if($app::$page->get_url('/profile')){
     // Update info
     if(isset($_POST['submitUpdateAccountInfo'])){
         
+
+        $info = $account->editUserInfo($app::$user->get_uuid(), $_POST['name_'], $_POST['surname_'], $_POST['mail_']);
+        if($info === true){
+            header("location: /profile");
+        } else {
+            $_GET['error'] = $info;
+        };
+        
+        
     }
     
     
@@ -203,23 +238,64 @@ if($app::$page->get_url('/profile')){
         }
     }
     
+    //Update cookie....
+    if(isset($_POST['submitChangeCookie'])){
+        //setcookie("frontpage", $_POST['frontPage'], time()+60*60*24*30);
+        setcookie("frontpage", $_POST['frontPage'], -1);
+        header("location: /profile");
+        
+    }
+    
+}
+
+if($app::$page->get_url() == "/admin"){
+    
+    if(isset($_POST['id'])){
+        
+        if(isset($_POST['submitDeleteNews'])){
+            $app::$sql->sql("DELETE FROM news WHERE id = :id", ['id' => $_POST['id']], false);
+        }
+        if(isset($_POST['submitDeleteUser'])){
+            $app::$sql->sql("DELETE FROM account WHERE uuid = :id", ['id' => $_POST['id']], false);
+        }
+        if(isset($_POST['submitDeleteCat'])){
+            $app::$sql->sql("DELETE FROM category WHERE id = :id", ['id' => $_POST['id']], false);
+        }
+        header("location: /admin");
+    }
+    
+    if(isset($_POST['submitAddCat'])){
+        
+        $app::$sql->sql("INSERT INTO category (name) VALUES(:cat_name)", ['cat_name' => $_POST['cat_name_']], false);
+        
+    }
+    
 }
 
 
 // Vote up/down
 if($app::$page->get_url('/news')){
-    
     if(isset($_POST['submitVoteUp'])){
-        $app::$sql->sql("INSERT INTO votes (vote, uuid, news_id) VALUES(1, :uuid, :news_id)", 
+        $app::$sql->sql("INSERT INTO votes (vote, uuid, news_id) 
+                         SELECT * FROM (SELECT 1, :uuid, :news_id) as tmp
+                         WHERE NOT EXISTS(
+                            SELECT uuid, news_id FROM votes WHERE uuid = :uuid AND news_id = :news_id
+                         ) LIMIT 1", 
                         ['uuid' => $app::$user->get_uuid(),
                          'news_id' => $news->get_news($_GET['news'])->get_id()], false); 
-        $news->get_news($_GET['news'])->increese_vote('up');
+        
+        header("location: /news/".$_GET['news']);
     }
     if(isset($_POST['submitVoteDown'])){
-        $app::$sql->sql("INSERT INTO votes (vote, uuid, news_id) VALUES(-1, :uuid, :news_id)", 
+        $app::$sql->sql("INSERT INTO votes (vote, uuid, news_id) 
+                         SELECT * FROM (SELECT -1, :uuid, :news_id) as tmp
+                         WHERE NOT EXISTS(
+                            SELECT uuid, news_id FROM votes WHERE uuid = :uuid AND news_id = :news_id
+                         ) LIMIT 1", 
                         ['uuid' => $app::$user->get_uuid(),
                          'news_id' => $news->get_news($_GET['news'])->get_id()], false);
-        $news->get_news($_GET['news'])->increese_vote('down');
+        header("location: /news/".$_GET['news']);
+        
     }
     
 }

@@ -119,6 +119,34 @@ class AccountController extends App{
         }
     }
     
+    public function editUserInfo($id, $name, $surname, $mail){
+        $query = parent::$pdo->_db->prepare("SELECT uuid
+                                             FROM account
+                                             WHERE (mail = :mail AND uuid != :id)");
+        $arr = [
+            'id' => $id,
+            'mail' => $mail
+        ];
+        parent::$pdo->arrayBinder($query, $arr);
+        $query->execute();
+        if($query->rowCount() == 0){
+            $salt = $this->generateToken();
+            $query = parent::$pdo->_db->prepare("UPDATE account 
+                                                 SET name = :name, surname = :surname, mail = :mail
+                                                 WHERE uuid = :id");
+            $arr = [
+                'id' => $id,
+                'name' => $name,
+                'surname' => $surname,
+                'mail' => $mail
+            ];
+            parent::$pdo->arrayBinder($query, $arr);
+            return $query->execute();
+        } else {
+            return 'Mail already in use!';
+        }
+    }
+    
     /**
      * Basic logout, clear session and cookies
      */

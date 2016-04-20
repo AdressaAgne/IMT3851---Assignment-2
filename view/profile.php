@@ -1,7 +1,7 @@
 <div class="row">
    <div class="hero-color">
        <div class="col col--3-of-4 col--centered">
-            <h1><?= $app::$user ?> (WIP)<small><?= $app::$user->get_rank(true) ?></small>
+            <h1><?= $app::$user ?><small><?= $app::$user->get_rank(true) ?></small>
                  <?php 
                 if(isset($_GET['success'])){
                     echo '<small class="success">'.$_GET['success'].'</small>';
@@ -24,7 +24,7 @@
                 </div>
                 <div class="form-element form-element--inline">  
                     <label for="radio_popular" class="hand">
-                        <input id="radio_popular" type="radio" name="frontPage" value="popular"  <?= isset($_COOKIE['frontpage']) && $_COOKIE['frontpage'] == "hot" ? "checked" : "" ?>> Popular
+                        <input id="radio_popular" type="radio" name="frontPage" value="hot"  <?= isset($_COOKIE['frontpage']) && $_COOKIE['frontpage'] == "hot" ? "checked" : "" ?>> Popular
                     </label>
                 </div>
                 <div class="form-element">
@@ -41,8 +41,8 @@
                     <div class="wave-effect"></div>
                 </div>
                 <div class="form-element">
-                    <label for="sirname" class="placeholder active"><i class="fa fa-user fa-fw"></i> Sirname</label>
-                    <input id="sirname" type="text" name="sirname_" placeholder="" autocomplete="off" value="<?= $app::$user->get_surname() ?>"  required>
+                    <label for="sirname" class="placeholder active"><i class="fa fa-user fa-fw"></i> Surname</label>
+                    <input id="sirname" type="text" name="surname_" placeholder="" autocomplete="off" value="<?= $app::$user->get_surname() ?>"  required>
                     <div class="wave-effect"></div>
                 </div>
 
@@ -110,8 +110,8 @@
                                                
                                                FROM news as n
                                                
-                                               INNER JOIN votes as v ON n.id = v.news_id
-                                               INNER JOIN category as c ON n.category = c.id
+                                               LEFT JOIN votes as v ON n.id = v.news_id
+                                               LEFT JOIN category as c ON n.category = c.id
                                                INNER JOIN account as a ON n.author = a.uuid
                                                
                                                WHERE n.author = :id

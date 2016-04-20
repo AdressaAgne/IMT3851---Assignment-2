@@ -15,8 +15,8 @@ class News extends App implements Countable, IteratorAggregate{
                                                SUM(v.vote = 1) as upVotes,
                                                SUM(v.vote = -1) as downVotes
                                                FROM news as n 
-                                               INNER JOIN votes as v ON n.id = v.news_id
-                                               INNER JOIN category as c ON n.category = c.id
+                                               LEFT JOIN votes as v ON n.id = v.news_id
+                                               LEFT JOIN category as c ON n.category = c.id
                                                INNER JOIN account as a ON n.author = a.uuid
                                                GROUP BY n.id
                                                ORDER BY timestamp DESC");
@@ -64,8 +64,8 @@ class News extends App implements Countable, IteratorAggregate{
                                                
                                                FROM news as n
                                                
-                                               INNER JOIN votes as v ON n.id = v.news_id
-                                               INNER JOIN category as c ON n.category = c.id
+                                               LEFT JOIN votes as v ON n.id = v.news_id
+                                               LEFT JOIN category as c ON n.category = c.id
                                                INNER JOIN account as a ON n.author = a.uuid
                                                
                                                WHERE WEEKOFYEAR(n.timestamp) > WEEKOFYEAR(NOW())-4

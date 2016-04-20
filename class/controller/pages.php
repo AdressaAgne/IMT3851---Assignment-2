@@ -13,8 +13,11 @@ class Pages extends App implements Countable, IteratorAggregate{
         parent::__construct();
         
         // Add Pages            Path, Page Title, Page Header text, File, isVisible, icon,  $_GET
-        $this->addPage(new Page("/", "Recent", 'Recent News','index.php', 
+        $this->addPage(new Page("/recent", "Recent", 'Recent News','index.php', 
                                 ['isVisible' => true,'icon' => 'clock-o']));
+        $this->addPage(new Page("/", "Recent", 'Recent News','index.php', 
+                                ['isVisible' => false,'icon' => 'clock-o']));
+        
         
         $this->addPage(new Page("/hot", "Popular", 'Popular News','index.php', 
                                 ['isVisible' => true, 'icon' => 'line-chart']));
@@ -36,6 +39,9 @@ class Pages extends App implements Countable, IteratorAggregate{
                                 ['isVisible' => true, 'icon' => 'plus']));
             
             $this->addPage(new Page("/edit", "Add News", 'Add News','newsItem_edit.php', 
+                                ['isVisible' => false, 'icon' => 'pencil', 'get' => ['news']]));
+            
+            $this->addPage(new Page("/delete", "Add News", 'Add News','newsItem_delete.php', 
                                 ['isVisible' => false, 'icon' => 'pencil', 'get' => ['news']]));
             
             if(parent::$user->get_rank() >= 3){

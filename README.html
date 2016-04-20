@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+</head>
+<body>
+<h1 id="imt3851---assignment-2">IMT3851&#8212;Assignment&#8211;2</h1>
+
+<p>School Assignment at NTNU Gjøvik</p>
+
+<p>Github: <a href="https://github.com/OrangeeWeb/IMT3851---Assignment-2">https://github.com/OrangeeWeb/IMT3851&#8212;Assignment&#8211;2</a></p>
+
+<p>Live on <a href="http://news.agne.no/">http://news.agne.no/</a></p>
+
+<p>© Agne Ødegaard 2016 - 140699</p>
+
+<h2 id="todo:">Todo:</h2>
+
+<ul>
+<li>Vote
+
+<ul>
+<li>Edit vote</li>
+<li>Prevent people from voting more then once</li>
+</ul></li>
+<li>Admin Panel
+
+<ul>
+<li>Delete User</li>
+<li>Delete Post</li>
+<li>Edit Category</li>
+<li>Delete Category</li>
+</ul></li>
+<li>Profile Page
+
+<ul>
+<li>Edit info</li>
+<li>Front Page Cookie thingy</li>
+</ul></li>
+<li>Setup.php</li>
+</ul>
+
+<h2 id="instructions">Instructions</h2>
+
+<ul>
+<li>Need to be run at root folder (localhost/ or something/).</li>
+<li>Go to Class/data/config.ini, Change database settings after your needs.</li>
+<li>Go to http://localhost/install</li>
+</ul>
+
+<h2 id="simpledocumentation">Simple Documentation</h2>
+
+<h3 id="app">$app</h3>
+
+<pre><code>App Object (
+    $app::$user
+    $app::$page
+)
+</code></pre>
+
+<h3 id="app::userloggedinnuser">$app::$user =&gt; logged inn user</h3>
+
+<pre><code>Account Object (
+    [id:Account:private]      =&gt; int
+    [name:Account:private]    =&gt; string
+    [surname:Account:private] =&gt; string
+    [mail:Account:private]    =&gt; string
+    [rank:Account:private]    =&gt; int (0 - 4)
+)
+</code></pre>
+
+<h3 id="app::pagecurrentpage">$app::$page =&gt; current page</h3>
+
+<pre><code>Page Object (
+    [url:Page:private]       =&gt; string (/something)
+    [title:Page:private]     =&gt; string
+    [content:Page:private]   =&gt; PHP page
+    [header:Page:private]    =&gt; Profile
+    [visible:Page:private]   =&gt; bool
+    [icon:Page:private]      =&gt; Font Awesome Icon Name
+    [right:Page:private]     =&gt; bool
+    [hasMore:Page:private]   =&gt; nothing
+    [get:Page:private]       =&gt; $_GET names
+)
+</code></pre>
+
+<h2 id="newsmethods:">$news Methods:</h2>
+
+<pre><code>$news-&gt;get_first();
+$news-&gt;get_news($permalink);
+$news-&gt;add_news($NewsObject);
+</code></pre>
+
+<h3 id="youcanalso:">You can also:</h3>
+
+<pre><code>count($news)
+foreach($news as $permalink =&gt; $NewsObject){}
+</code></pre>
+
+<h2 id="newsobject">$NewsObject</h2>
+
+<pre><code>NewsPage Object (
+    [id:NewsPage:private]         =&gt; int
+    [title:NewsPage:private]      =&gt; String
+    [article:NewsPage:private]    =&gt; Markdown Text
+    [preview:NewsPage:private]    =&gt; text
+    [authorUUID:NewsPage:private] =&gt; int
+    [author:NewsPage:private]     =&gt; string
+    [image:NewsPage:private]      =&gt; string
+    [style:NewsPage:private]      =&gt; int
+    [timestamp:NewsPage:private]  =&gt; timestamp
+    [votes:NewsPage:private]      =&gt; Array
+        (
+            [up] =&gt; int
+            [down] =&gt; int
+            [total] =&gt; int
+            [percent] =&gt; int
+        )
+    [cat] =&gt; string
+    [catID] =&gt; int
+)
+</code></pre>
+
+<h2 id="photos">Photos</h2>
+
+<figure>
+<img src="http://i.imgur.com/8wb51lh.png" alt="Image of the project" />
+<figcaption>Image of the project</figcaption>
+</figure>
+
+<figure>
+<img src="http://i.imgur.com/tVIOEWy.png" alt="Image of the project" />
+<figcaption>Image of the project</figcaption>
+</figure>
+
+<figure>
+<img src="http://i.imgur.com/HMz7Jl8.png" alt="Image of the project" />
+<figcaption>Image of the project</figcaption>
+</figure>
+
+</body>
+</html>

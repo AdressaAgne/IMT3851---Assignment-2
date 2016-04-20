@@ -3,6 +3,8 @@ School Assignment at NTNU Gjøvik
 
 Github: [https://github.com/OrangeeWeb/IMT3851---Assignment-2](https://github.com/OrangeeWeb/IMT3851---Assignment-2)
 
+Live on [http://news.agne.no/](http://news.agne.no/)
+
 © Agne Ødegaard 2016 - 140699
 
 

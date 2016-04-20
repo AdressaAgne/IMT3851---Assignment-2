@@ -25,7 +25,12 @@
                         <div class="table__cell"><a href="/news/<?= $newsPage->get_permalink() ?>"><?= $newsPage->get_title() ?></a></div>
                         <div class="table__cell"><?= $newsPage->get_cat_name() ?></div>
                         <div class="table__cell"><?= $newsPage->get_votes()['percent'] ?>%</div>
-                        <div class="table__cell table__cell--center"><a href="#"><i class="fa fa-trash"></i></a></div>
+                        <div class="table__cell table__cell--center">
+                           <form action="" method="post">
+                                <input type="hidden" name="id" value="<?= $newsPage->get_id() ?>">
+                                <button type="submit" class="btn" name="submitDeleteNews"><i class="fa fa-trash"></i></button>
+                            </form>
+                        </div>
                     </div>
                 <?php } ?>
             </div>
@@ -55,7 +60,12 @@
                         <div class="table__cell"><?= $user['mail'] ?></div>
                         <div class="table__cell"><?= $user['posts'] ?></div>
                         <div class="table__cell"><?= $user['rank'] ?></div>
-                        <div class="table__cell table__cell--center"><a href="#"><i class="fa fa-trash"></i></a></div>
+                        <div class="table__cell table__cell--center">
+                            <form action="" method="post">
+                                <input type="hidden" name="id" value="<?= $user['uuid'] ?>">
+                                <button type="submit" class="btn"  name="submitDeleteUser"><i class="fa fa-trash"></i></button>
+                            </form>
+                        </div>
                     </div>
                 <?php } ?>
             </div>
@@ -63,6 +73,7 @@
             <div class="hero-color">
                 <h1>Categorys</h1>
             </div>
+            
             <div class="table">
                 <div class="table__head">
                     <div class="table__cell">ID</div>
@@ -77,15 +88,37 @@
                                           LEFT JOIN news as n ON n.category = c.id
                                           GROUP BY c.id
                                           ORDER BY c.name");
-                foreach($users as $key => $user){ ?>
+                foreach($users as $key => $cat){ ?>
                     <div class="table__row">
-                        <div class="table__cell"><?= $user['id'] ?></div>
-                        <div class="table__cell"><?= $user['name'] ?></div>
-                        <div class="table__cell"><?= $user['total'] ?></div>
+                        <div class="table__cell"><?= $cat['id'] ?></div>
+                        <div class="table__cell"><?= $cat['name'] ?></div>
+                        <div class="table__cell"><?= $cat['total'] ?></div>
                         <div class="table__cell table__cell--center"><a href="#"><i class="fa fa-pencil"></i></a></div>
-                        <div class="table__cell table__cell--center"><a href="#"><i class="fa fa-trash"></i></a></div>
+                        <div class="table__cell table__cell--center">
+                            <form action="" method="post">
+                                <input type="hidden" name="id" value="<?= $cat['id'] ?>">
+                                <button type="submit" class="btn" name="submitDeleteCat"><i class="fa fa-trash"></i></button>
+                            </form>
+                        </div>
                     </div>
                 <?php } ?>
             </div>
+    </div>
+    <div class="col col--3-of-4 col--centered col--margin-top">
+        <form action="" method="post">
+           <h1><small>Add Category</small></h1>
+            <div class="col col--2-of-4 col--no-gutter">
+                <div class="form-element">
+                    <label for="name" class="placeholder"><i class="fa fa-tag fa-fw"></i> Name</label>
+                    <input id="name" type="text" name="cat_name_" placeholder="" autocomplete="off" value="" required>
+                    <div class="wave-effect"></div>
+                </div>
+            </div>
+            <div class="col col--2-of-4 col--no-gutter">
+                <div class="form-element form-element--inline">
+                    <input type="submit" class="btn" value="Add" name="submitAddCat">
+                </div>
+            </div>
+        </form>
     </div>
 </div>
