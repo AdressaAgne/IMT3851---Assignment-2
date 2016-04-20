@@ -223,11 +223,3 @@ if($app::$page->get_url('/news')){
     }
     
 }
-
-// Debug info
-if(isset($_GET['debug'])){
-    highlight_string("<?php\n\$data =\n" . var_export($app, true) . ";\n?>");
-}
-echo '<pre>';
-print_r($app::$user);
-echo '</pre>';

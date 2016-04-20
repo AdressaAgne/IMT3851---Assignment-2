@@ -51,15 +51,15 @@ Github: [https://github.com/OrangeeWeb/IMT3851---Assignment-2](https://github.co
 ### $app::$page => current page
 
     Page Object (
-        [url:Page:private] => string (/something)
-        [title:Page:private] => string
-        [content:Page:private] => PHP page
-        [header:Page:private] => Profile
-        [visible:Page:private] => bool
-        [icon:Page:private] => Font Awesome Icon Name
-        [right:Page:private] => bool
-        [hasMore:Page:private] => nothing
-        [get:Page:private] => $_GET names
+        [url:Page:private]       => string (/something)
+        [title:Page:private]     => string
+        [content:Page:private]   => PHP page
+        [header:Page:private]    => Profile
+        [visible:Page:private]   => bool
+        [icon:Page:private]      => Font Awesome Icon Name
+        [right:Page:private]     => bool
+        [hasMore:Page:private]   => nothing
+        [get:Page:private]       => $_GET names
     )
 
 
@@ -78,16 +78,16 @@ Github: [https://github.com/OrangeeWeb/IMT3851---Assignment-2](https://github.co
 ## $NewsObject
 
     NewsPage Object (
-        [id:NewsPage:private] => int
-        [title:NewsPage:private] => String
-        [article:NewsPage:private] => Markdown Text
-        [preview:NewsPage:private] => text
+        [id:NewsPage:private]         => int
+        [title:NewsPage:private]      => String
+        [article:NewsPage:private]    => Markdown Text
+        [preview:NewsPage:private]    => text
         [authorUUID:NewsPage:private] => int
-        [author:NewsPage:private] => string
-        [image:NewsPage:private] => string
-        [style:NewsPage:private] => int
-        [timestamp:NewsPage:private] => timestamp
-        [votes:NewsPage:private] => Array
+        [author:NewsPage:private]     => string
+        [image:NewsPage:private]      => string
+        [style:NewsPage:private]      => int
+        [timestamp:NewsPage:private]  => timestamp
+        [votes:NewsPage:private]      => Array
             (
                 [up] => int
                 [down] => int
