@@ -1,7 +1,9 @@
 # IMT3851---Assignment-2
 School Assignment at NTNU Gjøvik
+
 Github: [https://github.com/OrangeeWeb/IMT3851---Assignment-2](https://github.com/OrangeeWeb/IMT3851---Assignment-2)
 
+© Agne Ødegaard 2016 - 140699
 
 
 ### Todo:
@@ -17,20 +19,37 @@ Github: [https://github.com/OrangeeWeb/IMT3851---Assignment-2](https://github.co
 - Profile Page
     - Edit info
     - Front Page Cookie thingy
-- Setup
+- Setup.php
 
 
 ### Instructions
 
-Go to Class/data/config.ini
-change database settings after your need.
+- Need to be run at root folder (localhost/ or something/).
+- Go to Class/data/config.ini, Change database settings after your needs.
+- Go to http://localhost/install
 
-Run install.php
+
+### Simple Documentation
+
+Class App
+
+    $app
+    
+Class Account
+
+    Account Object (
+        [id:Account:private]      => int
+        [name:Account:private]    => string
+        [surname:Account:private] => string
+        [mail:Account:private]    => string
+        [rank:Account:private]    => int (0 - 4)
+    )
+
 
 ### Photos
-1st Photo
+
 ![Image of the project](http://i.imgur.com/8wb51lh.png)
-2nd
+
 ![Image of the project](http://i.imgur.com/tVIOEWy.png)
-3rd
+
 ![Image of the project](http://i.imgur.com/HMz7Jl8.png)
