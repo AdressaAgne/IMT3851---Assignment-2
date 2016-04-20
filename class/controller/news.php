@@ -10,10 +10,21 @@ class News extends App implements Countable, IteratorAggregate{
     public function __construct(){
         //parent::__construct();
         
-        $news = parent::$sql->select("news ORDER BY timestamp DESC");
+        $news = parent::$sql->sql("SELECT   n.*, c.name as cat_name, a.name as username,
+                                               COUNT(v.news_id) as totalVotes,
+                                               SUM(v.vote = 1) as upVotes,
+                                               SUM(v.vote = -1) as downVotes
+                                               FROM news as n 
+                                               INNER JOIN votes as v ON n.id = v.news_id
+                                               INNER JOIN category as c ON n.category = c.id
+                                               INNER JOIN account as a ON n.author = a.uuid
+                                               GROUP BY n.id
+                                               ORDER BY timestamp DESC");
         foreach($news as $newsPage){
-            $this->addNews(new NewsPage($newsPage['id'], $newsPage['title'], $newsPage['article'], $newsPage['preview'], $newsPage['author'], $newsPage['image'], $newsPage['style']));
+            $this->addNews(new NewsPage($newsPage));
         }
+        
+        //SELECT news.*, catgory.*  FROM news INNER JOIN category WHERE news.category_id = category.id GROUP BY news.id Order BY timestamp DESC
     }
     
     /**
@@ -44,7 +55,25 @@ class News extends App implements Countable, IteratorAggregate{
      */
     public function sort_by(Page $page){
         if($page->get_url() == '/hot'){
-            ksort($this->news);
+            $this->news = [];
+            $news = parent::$sql->sql("SELECT  n.*, c.name as cat_name, a.name as username,
+                                               COUNT(v.news_id) as totalVotes,
+                                               SUM(v.vote = 1) as upVotes,
+                                               SUM(v.vote = -1) as downVotes,
+                                               SUM(v.vote) - SUM(v.vote = -1) as score
+                                               
+                                               FROM news as n
+                                               
+                                               INNER JOIN votes as v ON n.id = v.news_id
+                                               INNER JOIN category as c ON n.category = c.id
+                                               INNER JOIN account as a ON n.author = a.uuid
+                                               
+                                               WHERE WEEKOFYEAR(n.timestamp) > WEEKOFYEAR(NOW())-4
+                                               GROUP BY n.id
+		                                       ORDER BY score DESC");
+            foreach($news as $newsPage){
+                $this->addNews(new NewsPage($newsPage));
+            }
         }
     }
     

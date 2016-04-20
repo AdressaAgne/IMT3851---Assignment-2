@@ -1,9 +1,8 @@
 <?php
-
 class Account extends App{
     private $id,
             $name, 
-            $sirname, 
+            $surname, 
             $mail,
             $rank;
     
@@ -21,14 +20,14 @@ class Account extends App{
         $this->name = $row['name'];
         $this->mail = $row['mail'];
         $this->rank = $row['rank'];
-        $this->sirname = $row['surname'];
+        $this->surname = $row['surname'];
     }
     
     /**
      * get_id()
      * @return integer User UUID
      */
-    public function get_id(){
+    public function get_uuid(){
         return $this->id;
     }
     
@@ -41,11 +40,11 @@ class Account extends App{
     }
     
     /**
-     * Users Sirname
+     * Users Surname
      * @return string
      */
-    public function get_sirname(){
-        return strip_tags($this->sirname);
+    public function get_surname(){
+        return strip_tags($this->surname);
     }
     
     /**
@@ -77,6 +76,6 @@ class Account extends App{
      * @return string Users name
      */
     public function __toString(){
-        return strip_tags($this->name . " " .  $this->sirname);
+        return strip_tags($this->name . " " .  $this->surname);
     }
 }

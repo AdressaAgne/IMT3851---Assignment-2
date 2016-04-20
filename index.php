@@ -44,6 +44,9 @@
     <!--    Links     -->
     <link rel="stylesheet" href="/css/main.css">
     <title><?= $app::$page->get_title() ?> - News App</title>
+   
+    <!--    jQuery     -->
+    <script src="/js/jquery-1.12.3.min.js"></script>
 </head>
 <body>
     <!--    Menu     -->
@@ -65,13 +68,13 @@
     
     <!--    HTML Footer     -->
     <div class="row">
-        <div class="col col--4-of-4">
+        <div class="col col--4-of-4 col--centered">
+        <!--<pre><?php print_r($pages) ?></pre>-->
             <?php include($app->get_footer()); ?>
         </div>
     </div>
         
     <!--    Scripts     -->
-    <script src="/js/jquery-1.12.3.min.js"></script>
     <script>
         $(function(){
             $("#burger").click(function(){

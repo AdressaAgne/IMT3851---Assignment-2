@@ -25,6 +25,33 @@ class SQLMethods extends App{
         return $query->fetchAll();
         
     }
+    
+    public function sql($sql, $arr = false, $fetch = true){
+        // Prepare sql statement
+        $query = parent::$pdo->_db->prepare($sql);
+        
+        if($arr !== false){
+            // Add values to query
+            parent::$pdo->arrayBinder($query, $arr);
+        }
+        
+        if($fetch){
+            try{
+                $query->execute();
+            } catch (PDOExeption $e){
+                $this->error($e);
+            }
+            return $query->fetchAll();
+        } else {
+            try{
+                return $query->execute();
+            } catch (PDOExeption $e){
+                return $this->error($e);
+            }
+        }
+        
+        
+    }
     public function delete(){
         
     }

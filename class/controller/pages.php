@@ -35,6 +35,9 @@ class Pages extends App implements Countable, IteratorAggregate{
             $this->addPage(new Page("/add", "Add News", 'Add News','addNews.php', 
                                 ['isVisible' => true, 'icon' => 'plus']));
             
+            $this->addPage(new Page("/edit", "Add News", 'Add News','newsItem_edit.php', 
+                                ['isVisible' => false, 'icon' => 'pencil', 'get' => ['news']]));
+            
             if(parent::$user->get_rank() >= 3){
                 $this->addPage(new Page("/admin", "Admin", 'Admin','admin.php', 
                                 ['isVisible' => true, 'icon' => 'bolt']));

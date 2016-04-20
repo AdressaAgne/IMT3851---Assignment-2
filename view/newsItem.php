@@ -14,19 +14,27 @@ if($newsPage !== false) { ?>
         <div class="row">
             <div class="col col--3-of-4 col--centered">
                 <div class="button--container">
-                    <span class="thumb__text">(wip)</span>
-                    <a href="" class="btn"><i class="fa fa-thumbs-up"></i> 123</a>
-                    <a href="" class="btn"><i class="fa fa-thumbs-down"></i> 321</a>
+                    <form action="" method="post" style="display: inline-block;">
+                        <button type="submit" name="submitVoteUp" class="btn"><i class="fa fa-thumbs-up"></i> <?= $newsPage->get_votes()['up'] ?></button>
+                    </form>
+                    <form action="" method="post" style="display: inline-block;">    
+                        <button type="submit" name="submitVoteDown" class="btn"><i class="fa fa-thumbs-down"></i> <?= $newsPage->get_votes()['down'] ?></button>
+                    </form>
+                    <?php if($newsPage->get_authorUUID() === $app::$user->get_uuid()){ ?>
+                        <a href="/delete/<?= $newsPage->get_permalink() ?>" class="right danger"><i class="fa fa-trash"></i> Delete</a>
+                        <a href="/edit/<?= $newsPage->get_permalink() ?>" class="right"><i class="fa fa-pencil"></i> Edit</a>
+                    <?php } ?>
+                        
                 </div>
-                <p><?= $newsPage->get_article(); ?></p>
             </div>
+            <div class="col col--2-of-4 col--centered article__container"><?= $Parsedown->text($newsPage->get_article()) ?></div>
         </div>
     </article>
 <?php } else { ?>
     <article>
         <div class="hero">
             <div class="col col--3-of-4 col--centered">
-                <div class="hero__content col col--3-of-4 col--centered">
+                <div class="hero__content col col--2-of-4 col--centered">
                     <h1>We're sorry but it seems that the news you are looking for does not exists or has been removed</h1>
                 </div>
             </div>

@@ -1,11 +1,38 @@
 <div class="row">
    <div class="hero-color">
        <div class="col col--3-of-4 col--centered">
-            <h1><?= $app::$user ?> (WIP)<small><?= $app::$user->get_rank(true) ?></small></h1>
+            <h1><?= $app::$user ?> (WIP)<small><?= $app::$user->get_rank(true) ?></small>
+                 <?php 
+                if(isset($_GET['success'])){
+                    echo '<small class="success">'.$_GET['success'].'</small>';
+                } 
+                if(isset($_GET['error'])){
+                    echo '<small class="error">'.$_GET['error'].'</small>';
+                }
+            ?>
+            </h1>
        </div>
    </div>
     <div class="col col--2-of-4 col--centered">
-        <div class="col col--2-of-4">
+        <div class="col col--4-of-4">
+           <h2>Font Page Settings <small><strong>Note:</strong> This will be stored in cookies, if you leave the page for more then 30days this will be reset</small></h2>
+            <form action="" method="POST">
+                <div class="form-element form-element--inline">
+                    <label for="radio_recent" class="hand">
+                        <input id="radio_recent" type="radio" name="frontPage" value="recent" <?= isset($_COOKIE['frontpage']) && $_COOKIE['frontpage'] == "recent" ? "checked" : (!isset($_COOKIE['frontpage']) ? "checked" : "") ?>> Recent
+                    </label>
+                </div>
+                <div class="form-element form-element--inline">  
+                    <label for="radio_popular" class="hand">
+                        <input id="radio_popular" type="radio" name="frontPage" value="popular"  <?= isset($_COOKIE['frontpage']) && $_COOKIE['frontpage'] == "hot" ? "checked" : "" ?>> Popular
+                    </label>
+                </div>
+                <div class="form-element">
+                    <input type="submit" name="submitChangeCookie" value="Change" class="btn">
+                </div>
+            </form>
+        </div>
+        <div class="col col--2-of-4 col--margin-top">
             <h2>Basic Settings</h2>
             <form action="" method="POST" autocomplete="off">
                 <div class="form-element">
@@ -15,7 +42,7 @@
                 </div>
                 <div class="form-element">
                     <label for="sirname" class="placeholder active"><i class="fa fa-user fa-fw"></i> Sirname</label>
-                    <input id="sirname" type="text" name="sirname_" placeholder="" autocomplete="off" value="<?= $app::$user->get_sirname() ?>"  required>
+                    <input id="sirname" type="text" name="sirname_" placeholder="" autocomplete="off" value="<?= $app::$user->get_surname() ?>"  required>
                     <div class="wave-effect"></div>
                 </div>
 
@@ -27,13 +54,14 @@
 
 
                 <div class="form-element">
-                    <input type="submit" name="submitRegister" value="Change" class="btn">
+                    <input type="submit" name="submitUpdateAccountInfo" value="Change" class="btn">
                 </div>
             </form>
         </div>
 
-        <div class="col col--2-of-4">
-            <h2>Change Password</h2>
+        <div class="col col--2-of-4 col--margin-top">
+            <h2>Change Password
+            </h2>
             <form action="" method="POST" autocomplete="off">
                 <div class="form-element">
                     <label for="password_old" class="placeholder"><i class="fa fa-key fa-fw"></i> Old Password</label>
@@ -54,9 +82,54 @@
 
 
                 <div class="form-element">
-                    <input type="submit" name="submitRegister" value="Change" class="btn">
+                    <input type="submit" name="submitChangePassword" value="Change" class="btn">
                 </div>
-            </form
+            </form>
         </div>
+        
     </div>
+    <div class="col col--3-of-4 col--centered">
+            <div class="hero-color">
+                <h1>Your News</h1>
+            </div>
+            <div class="table">
+                <div class="table__head">
+                    <div class="table__cell">Title</div>
+                    <div class="table__cell">Category</div>
+                    <div class="table__cell">Posted</div>
+                    <div class="table__cell"><i class="fa fa-thumbs-up"></i></div>
+                    <div class="table__cell"><i class="fa fa-thumbs-down"></i></div>
+                    <div class="table__cell">%</div>
+                </div>
+                <?php 
+                    $posts = $app::$sql->sql('SELECT  n.*, c.name as cat_name, a.name as username,
+                                               COUNT(v.news_id) as totalVotes,
+                                               SUM(v.vote = 1) as upVotes,
+                                               SUM(v.vote = -1) as downVotes,
+                                               SUM(v.vote) - SUM(v.vote = -1) as score
+                                               
+                                               FROM news as n
+                                               
+                                               INNER JOIN votes as v ON n.id = v.news_id
+                                               INNER JOIN category as c ON n.category = c.id
+                                               INNER JOIN account as a ON n.author = a.uuid
+                                               
+                                               WHERE n.author = :id
+                                               GROUP BY n.id
+		                                       ORDER BY n.timestamp DESC', ['id' => $app::$user->get_uuid()]);
+
+                    foreach($posts as $key => $newsPage){ 
+                    $newsPage = new NewsPage($newsPage);
+                    ?>
+                    <div class="table__row">
+                        <div class="table__cell"><a href="/news/<?= $newsPage->get_permalink() ?>"><?= $newsPage->get_title() ?></a></div>
+                        <div class="table__cell"><?= $newsPage->get_cat_name() ?></div>
+                        <div class="table__cell"><?= $newsPage->get_timestamp() ?></div>
+                        <div class="table__cell"><?= $newsPage->get_votes()['up'] ?></div>
+                        <div class="table__cell"><?= $newsPage->get_votes()['down'] ?></div>
+                        <div class="table__cell"><?= $newsPage->get_votes()['percent'] ?>%</div>
+                    </div>
+                <?php } ?>
+            </div>
+        </div>
 </div>

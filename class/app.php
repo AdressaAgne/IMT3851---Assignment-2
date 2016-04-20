@@ -12,7 +12,8 @@ class App{
            $pdo,
            $sql,
            $page,
-           $user;
+           $user,
+           $categorys;
     
     function __construct(){
         if(!isset($_SESSION)) session_start();
@@ -82,7 +83,11 @@ class App{
         return self::$config['view_folder']."news/$container.php";
     }
     
-    
+    public function createPermalink($id, $title){
+        $result = preg_replace("/([^a-zA-Z0-9\\s])/uis", "", strtolower(trim($id." ".$title)));
+        
+        return preg_replace("/\s/ui", self::$config['permalink_space'], $result);
+    }
 }
 $app = new App();
 
@@ -101,16 +106,22 @@ if (isset($_SESSION['uuid'])){
 // News Controller
 include("controller/newsPage.php");
 include("controller/news.php");
+include("controller/category.php");
 
 // Page files
 include("controller/page.php");
 include("controller/pages.php");
 
+// Markdown Library
+include("libs/parsedown.php");
+$Parsedown = new Parsedown();
 
+//Logout
 if($app::$page->get_url() == "/logout"){
    $account->logout();
 }
 
+// Register User
 if($app::$page->get_url() == "/register" && isset($_POST['submitRegister'])){
     if($_POST['password_1'] === $_POST['password_2']){
         if($account->addAccount($_POST['password_1'], $_POST['mail_'], $_POST['name_'], $_POST['sirname_'], 0)){
@@ -123,14 +134,95 @@ if($app::$page->get_url() == "/register" && isset($_POST['submitRegister'])){
     }
     
 }
-
-
+// Login
 if($app::$page->get_url() == "/login" && isset($_POST['submitLogin'])){
     if(!$account->login($_POST['username_'], $_POST['password_'], false)){
         $error = "Wrong Login Information";
     };
 }
 
+// Insert new post
+if($app::$page->get_url() == '/add' && isset($_POST['submitAddPost'])){
+    if($app::$sql->sql("INSERT INTO news (title, article, author, image, category)
+                                VALUES(:title, :article, :author, :image, :category)",
+                   ['title'     => $_POST['title_'],
+                    'image'     => $_POST['image_'],
+                    'author'    => $app::$user->get_uuid(),
+                    'category'  => $_POST['category_'],
+                    'article'   => $_POST['article_']], false
+                   )
+    ){
+        //insert vote up  
+        $id = $app::$sql->select("news ORDER BY timestamp DESC LIMIT 1")['0']['id'];
+        $app::$sql->sql("INSERT INTO votes (vote, uuid, news_id) VALUES(1, :uuid, :news_id)", 
+                        ['uuid' => $app::$user->get_uuid(),
+                         'news_id' => $id], false);   
+    }
+     
+}
+
+// Update post
+if($app::$page->get_url() == '/edit' && isset($_POST['submitEditPost'])){
+    if($app::$sql->sql("UPDATE news 
+                        SET title = :title, article = :article, image = :image, category = :category 
+                        WHERE id = :id AND author = :author",
+                   ['title'     => $_POST['title_'],
+                    'image'     => $_POST['image_'],
+                    'author'    => $app::$user->get_uuid(),
+                    'id'        => $_POST['id'],
+                    'category'  => $_POST['category_'],
+                    'article'   => $_POST['article_']], false
+                   )
+    ){
+        header("location: /news/".$app->createPermalink($_POST['id'], $_POST['title_']));
+    }
+     
+}
+
+//User Profile
+
+if($app::$page->get_url('/profile')){
+    
+    // Update info
+    if(isset($_POST['submitUpdateAccountInfo'])){
+        
+    }
+    
+    
+    //Change Password
+    if(isset($_POST['submitChangePassword'])){
+        if($_POST['password_new_1'] === $_POST['password_new_2']){
+            $info = $account->changePassword($app::$user->get_uuid(), $_POST['password_old'], $_POST['password_new_1']);
+            if($info === true){
+                $_GET['success'] = "Password Updated";   
+            } else {
+                $_GET['error'] = $info;
+            };
+        } else {
+            $_GET['error'] = "New passwords does not match!";
+        }
+    }
+    
+}
+
+
+// Vote up/down
+if($app::$page->get_url('/news')){
+    
+    if(isset($_POST['submitVoteUp'])){
+        $app::$sql->sql("INSERT INTO votes (vote, uuid, news_id) VALUES(1, :uuid, :news_id)", 
+                        ['uuid' => $app::$user->get_uuid(),
+                         'news_id' => $news->get_news($_GET['news'])->get_id()], false); 
+        $news->get_news($_GET['news'])->increese_vote('up');
+    }
+    if(isset($_POST['submitVoteDown'])){
+        $app::$sql->sql("INSERT INTO votes (vote, uuid, news_id) VALUES(-1, :uuid, :news_id)", 
+                        ['uuid' => $app::$user->get_uuid(),
+                         'news_id' => $news->get_news($_GET['news'])->get_id()], false);
+        $news->get_news($_GET['news'])->increese_vote('down');
+    }
+    
+}
 
 // Debug info
 if(isset($_GET['debug'])){

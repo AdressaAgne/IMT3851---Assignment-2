@@ -96,6 +96,29 @@ class AccountController extends App{
         }
     }
     
+    
+    public function changePassword($id, $oldpw, $newpw){
+        $query = parent::$pdo->_db->prepare("SELECT * FROM account WHERE uuid = :id LIMIT 1");
+        $arr = ['id' => $id];
+        parent::$pdo->arrayBinder($query, $arr);
+        $query->execute();
+        $user = $query->fetch();
+        
+        if($this->hashValue($oldpw, $user['salt']) === $user['password']){
+            $salt = $this->generateToken();
+            $query = parent::$pdo->_db->prepare("UPDATE account SET password = :newpw, salt = :salt WHERE uuid = :id");
+            $arr = [
+                'id' => $id,
+                'newpw' => $this->hashValue($newpw, $salt),
+                'salt' => $salt
+            ];
+            parent::$pdo->arrayBinder($query, $arr);
+            return $query->execute();
+        } else {
+            return 'Old password was wrong!';
+        }
+    }
+    
     /**
      * Basic logout, clear session and cookies
      */

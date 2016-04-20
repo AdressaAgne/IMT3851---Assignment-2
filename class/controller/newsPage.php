@@ -6,10 +6,13 @@ class NewsPage extends App{
             $title,
             $article,
             $preview,
+            $authorUUID,
             $author,
             $image,
             $style,
-            $category;
+            $category,
+            $timestamp,
+            $votes = [];
     
     /**
      * News Article Page
@@ -22,16 +25,59 @@ class NewsPage extends App{
      * @param string  $image   Article Header Image source
      * @param integer $style   How to display the news on frontpage
      */
-    public function __construct($id, $title, $article, $preview, $author, $image, $style){
+    public function __construct($row){
         parent::__construct();
         
-        $this->id = $id;
-        $this->title = $title;
-        $this->article = $article;
-        $this->preview = $preview;
-        $this->author = $author;
-        $this->image = $image;
-        $this->style = $style;
+        $this->id = $row['id'];
+        $this->title = $row['title'];
+        $this->article = $row['article'];
+        $this->preview = $row['preview'];
+        $this->authorUUID = $row['author'];
+        $this->author = $row['username'];
+        $this->image = $row['image'];
+        $this->style = $row['style'];
+        
+        $this->votes['up'] = $row['upVotes'];
+        $this->votes['down'] = $row['downVotes'];
+        $this->votes['total'] = $row['totalVotes'];
+        $this->votes['percent'] = floor($row['upVotes'] / $row['totalVotes'] * 100);
+        
+        $this->cat = $row['cat_name'];
+        $this->catID = $row['category'];
+        
+        $this->timestamp = $row['timestamp'];
+    }
+    
+    /**
+     * Article Votes
+     * @return array [up, down, total]
+     */
+    public function get_votes(){
+        return $this->votes;
+    }
+    
+    public function get_categoryID(){
+        return $this->catID;
+    }
+    
+    public function get_timestamp(){
+        return $this->timestamp;
+    }
+    
+    /**
+     * Increes the vote when voting
+     * @param string $state
+     */
+    public function increese_vote($state){
+        $this->votes[$state]++;
+    }
+    
+    /**
+     * Article Category Name
+     * @return string
+     */
+    public function get_cat_name(){
+        return $this->cat;
     }
     
     /**
@@ -67,11 +113,19 @@ class NewsPage extends App{
     }
     
     /**
-     * Get Article Author UUID
-     * @return integer UUID
+     * Get Article Author Name
+     * @return string
      */
     public function get_author(){
         return $this->author;
+    }
+    
+    /**
+     * Get Article Author UUID
+     * @return integer UUID
+     */
+    public function get_authorUUID(){
+        return $this->authorUUID;
     }
     
     /**
@@ -109,8 +163,6 @@ class NewsPage extends App{
      * @return string Removed all glyphs and spaces
      */
     public function get_permalink(){
-        $result = preg_replace("/([^a-zA-Z0-9\\s])/uis", "", strtolower(trim($this->id." ".$this->title)));
-        
-        return preg_replace("/\s/ui", parent::$config['permalink_space'], $result);
+       return parent::createPermalink($this->id, $this->title);
     }
 }

@@ -11,6 +11,9 @@
 //2f4955
 $themeColor: #009688;
 $secondColor: $themeColor;
+$dangerColor: #EF5350;
+$warningColor: #FFC107;
+$successColor: #4CAF50;
 //$themeColor: #ee6e73;
 
 html, body{
@@ -31,13 +34,24 @@ main:after {
     height: 250px;
 }
 
+@font-face{
+    font-family:'FontAwesome';
+    src:url("../fonts/fontawesome-webfont.eot?v=4.5.0");
+    src:url("../fonts/fontawesome-webfont.eot?#iefix&v=4.5.0") format("embedded-opentype"),
+        url("../fonts/fontawesome-webfont.woff2?v=4.5.0") format("woff2"),
+        url("../fonts/fontawesome-webfont.woff?v=4.5.0") format("woff"),
+        url("../fonts/fontawesome-webfont.ttf?v=4.5.0") format("truetype"),
+        url("../fonts/fontawesome-webfont.svg?v=4.5.0#fontawesomeregular") format("svg");
+    font-weight:normal;
+    font-style:normal
+}
 
 /**
 * Material Design:
 * Cards:
 */
 .card{
-    width: 99%;
+    width: 100%;
     margin-bottom: 15px;
     margin: 10px;
     font-weight: 300;
@@ -53,10 +67,11 @@ main:after {
         background-position: center center;
         border-radius: 2px 2px 0px 0px;
         position: relative;
+        box-shadow: inset 0px -20px 50px 0px rgba(0, 0, 0, .3);
         &--text{
             position: absolute;
             font-size: 24px;
-            bottom: 40px;
+            bottom: 25px;
             left: 20px;
             color: #f8f8f8;
             text-transform: none;
@@ -68,10 +83,21 @@ main:after {
         box-sizing: border-box;
         padding: 20px;
         border-radius: 0px 0px 2px 2px;
+        
+        p{
+            width: 100%;
+            display: inline-block;
+        }
+    }
+    a{
+        margin: 0px;
     }
     &__action{
         padding: 20px;
         border-top: 1px solid rgba(160,160,160,0.2);
+        &--right{
+            float: right;
+        }
     }
 }
 
@@ -209,6 +235,11 @@ nav{
     margin-top: 30px;
     font-weight: 300;
     height: 35px;
+    &--inline{
+        display: inline-block;
+        width: auto;
+        margin-right: 20px;
+    }
     label.placeholder {
         display: block;
         margin-bottom: 5px;
@@ -223,7 +254,9 @@ nav{
             font-size: 10px;
         }
     }
-    input[type='text'], input[type='password']{
+    input[type='text'], input[type='password'], select{
+        border-radius: 0px;
+        appearance: none;
         width: 100%;
         height: inherit;
         padding-left: 18px;
@@ -273,9 +306,37 @@ nav{
             }
         }
     }
+    select{
+        border: 1px solid darken($secondColor, 2%);
+    }
+    .select__icon{
+        position: absolute;
+        right: 10px;
+        color: $themeColor;
+        top: 7px;
+    }
+    
+    input[type='radio']{
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 15px;
+        margin-bottom: -5px;
+        background-color: #f8f8f8;
+        cursor: pointer;
+        margin-right: 5px;
+        border: 2px solid $themeColor;
+        outline: none;
+        transition: all .2s;
+        &:checked{
+            background-color: $themeColor;
+        }
+    }
 }
 
+
 .btn{
+    appearance: none;
     text-decoration: none;
     color: #f8f8f8;
     background-color: $secondColor;
@@ -286,13 +347,14 @@ nav{
     border-radius: 2px;
     display: inline-block;
     height: 36px;
+    font-size: 14px;
     line-height: 36px;
     outline: 0;
     padding: 0 2rem;
     text-transform: uppercase;
     transition: all .2s;
     
-    &:hover,&:focus{
+    &:hover{
         background-color: lighten($secondColor, 10%);
         box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),
                 0 2px 10px 0 rgba(0,0,0,0.12);
@@ -333,13 +395,11 @@ nav{
         background-color: #fcfcfc;
         line-height: 1.5;
         background-color: transparent;
-        border: none;
         box-sizing: border-box;
-        border-bottom: 2px solid darken($secondColor, 2%);
+        border: 1px solid darken($secondColor, 2%);
         display: inline-block;
-        padding-left: 18px;
+        padding: 18px;
         outline: none;
-        padding-right: 18px;
     }
 }
 
@@ -353,6 +413,30 @@ nav{
     color: rgba(0, 0, 0, .6)
 }
 
+.article__container{
+    
+    code{
+        padding: 10px 20px;
+        background-color: #f0f0f0;
+        border: 1px solid darken(#f0f0f0, 5%);
+        border-radius: 2px;
+        width: 100%;
+        display: block;
+        box-sizing: border-box;
+    }
+
+    p {
+        padding: 10px 0px;
+    }
+    
+    ul li{
+        margin-left: 20px;
+    }
+    img{
+        max-width: 100%;
+    }
+}
+
 /**
 * Links
 *
@@ -362,10 +446,20 @@ a{
     text-decoration: none;
     transition: all .2s ease;
     text-transform: uppercase;
-    
+    margin: 0 5px;
     &:hover{
         color: lighten($themeColor, 10%);
     }
+    &.danger{
+        color: $dangerColor;
+    }
+    &.warning{
+        color: $warningColor;
+    }
+    &.success{
+        color: $successColor;
+    }
+    
 }
 
 /**
@@ -385,7 +479,9 @@ p{
     column-gap: 15px;
     
     .col__card{
-        float: left;
+        display: inline-block;
+        width: calc(100% - 10px);
+        margin: 0 auto;
         page-break-inside: avoid;
              break-inside: avoid;
     }
@@ -442,9 +538,12 @@ h1, h2, h3, h4, h5, h6{
     
     & small{
         display: block;
-        font-size: .6em;
+        font-size: .55em;
+        font-weight: 300;
     }
 }
+
+
 .hero-color{
     height: 150px;
     width: 100%;
@@ -463,5 +562,122 @@ h1, h2, h3, h4, h5, h6{
 */
 
 .error{
-    color: #ee6e73;
+    color: $dangerColor;
+}
+.warning{
+    color: $warningColor;
+}
+.success{
+    color: $successColor;
+}
+
+.left{
+    float: left;
+}
+
+.right{
+    float: right;
+}
+.hand{
+    cursor: pointer;
+}
+
+
+
+
+/**
+*    Table
+*/
+
+.table{
+    font-size: 14px;
+	width: 100%;
+	color: #222222;
+    overflow: hidden;
+    border-radius: 2px;
+    border: 1px solid lighten($themeColor, 5%);
+    box-sizing: border-box;
+    background-color: #f8f8f8;
+    
+    
+    display: table;
+    table-layout: auto;
+    
+    &__cell{
+        display: table-cell;
+        padding: 5px 20px;
+        line-height: 50px;
+        box-sizing: border-box;
+        text-align: left;
+        vertical-align: middle;
+        
+        &--danger{
+            border-left: 5px solid $dangerColor;    
+        }
+        &--warning{
+            border-left: 5px solid $warningColor;    
+        }
+        &--success{
+            border-left: 5px solid $successColor;    
+        }
+        &--center{
+            text-align: center;
+        }
+        &--fixed{
+            width: 50px;
+        }
+    }
+    &__row{
+        clear: both;
+        display: table-row;
+        width: 100%;
+        box-sizing: border-box;
+        table-layout: inherit;
+        
+        &:nth-of-type(odd){
+            background-color: rgba(0, 0, 0, .05);
+        }
+        &:hover{
+            background-color: rgba(0, 0, 0, .1);
+        }
+    }
+    &__head{
+        background-color: $themeColor;
+        display: table-header-group;
+        color: #f8f8f8;
+        width: 100%;
+        height: 60px;
+        table-layout: inherit;
+    }
+    &__image{
+        background-size: cover;
+        background-position: center center;
+        height: 60px;
+    }
+}
+@media (max-width: 480px) {
+ 
+    .table{
+        &__row{
+             
+        }
+        &__head{
+             
+        }
+        &__body{
+            & .table__cell{
+                width: 50%;
+                border: none;
+            } 
+            & .table__phone--full{
+                width: 100%;   
+            }
+            & .table__phone--hidden{
+                display: none;   
+            }
+        }
+        
+        
+    }
+    
 }
