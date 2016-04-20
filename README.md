@@ -66,7 +66,9 @@ Github: [https://github.com/OrangeeWeb/IMT3851---Assignment-2](https://github.co
 ## $news Methods:
 
     $news->get_first();
-    $news->get_first();
+    $news->get_news($permalink);
+    $news->add_news($NewsObject);
+
     
 ### You can also:
 
